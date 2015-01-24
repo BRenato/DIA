@@ -10,27 +10,29 @@
 //DARK OR LIGHT THEMES
 /* =================== THIS IS FOR SCREEN THEME CONTROL =================== */
 	var setThemeColor = function (_colorTheme){
-		//body ...
-		var btnS = document.getElementById('imageButtonSubmit');
-		var btnB = document.getElementById('imageButtonBack');
+
+		var btnSubmit = document.getElementById('imageButtonSubmit');
+		var btnBack = document.getElementById('imageButtonBack');
+			btnSubmit.setAttribute('style', 'display: none');
+			btnBack.setAttribute('style', 'display: none');
+
 		var iconBar = document.getElementById('icon-bar');
-		btnS.setAttribute('style', 'display: none');
-		btnB.setAttribute('style', 'display: none');
+		var backColor = document.getElementById('background');
 
 		switch (_colorTheme) {
-			case "dark":
-				var backColor = document.getElementById('background');
-				backColor.setAttribute('style', 'background: #282828 !important');
+			case AllComponents.var_theme_dark:
+				backColor.setAttribute('style', 'background-color: #282828 !important');
 				iconBar.setAttribute('style','background-color: white');
-				setMenuAndLabelsColor(_colorTheme);
-				setIconBarsColors('white');
+				
+				setMenuAndLabelsColor(_colorTheme);/*menu and their own labels*/
+				setIconBarsColors('white');/*button horizontal bars*/
 			break;
-			case "light":
-				var backColor = document.getElementById('background');
-				backColor.setAttribute('style', 'background: white !important');
+			case AllComponents.var_theme_light:
+				backColor.setAttribute('style', 'background-color: white !important');
 				iconBar.setAttribute('style','background-color: #282828');
-				setMenuAndLabelsColor(_colorTheme);
-				setIconBarsColors('#282828');	
+
+				setMenuAndLabelsColor(_colorTheme);/*menu and their own labels*/
+				setIconBarsColors('#282828');/*button horizontal bars*/	
 			break;
 		}
 		
@@ -104,23 +106,7 @@
 		}
 	};
 
-	var setBtnBackVisible = function(_colorTheme, _text){
-		
-		var btnS = document.getElementById('imageButtonBack');
-		var btnText = document.getElementById('btnLeft');
-		btnText.innerHTML = _text;
 
-		switch (_colorTheme){
-		case "dark":	
-			btnS.setAttribute('style', 'content : url("./img/btn_back_light.png") !important');
-			btnText.setAttribute('style', 'color: white !important');
-			break;
-		case "light":
-			btnS.setAttribute('style', 'content : url("./img/btn_back_dark.png") !important');
-			btnText.setAttribute('style', 'color: #282828 !important');
-			break;
-		}
-	};
 	var setTopLabelVisible = function(_colorTheme, _text){
 
 		var labelTop = document.getElementById('labelTop');
@@ -147,42 +133,139 @@
 
 
 /* =================== COMPONENTS CONSTRUCTION =================== */
-var AllComponents = {
+//The wizard components as an individual declaration, don't use this method. Use Wizard Components to set a new Wizard inicialization
+var AllComponents = { 
 
 	btn_submit_name			: "btn_submit",
 	btn_submit_light_image	: "./img/btn_submit_light.png",
 	btn_submit_dark_image	: "./img/btn_submit_dark.png",
 	btn_submit_text			: "Submit",
 
-	/*btn_middle_image*/
+/* ===== BTN MIDDLE IS NOT HERE BECAUSE IS MADE BY WIZARD COMPONENT ===== */
+	/*btn_middle_image?*/
+	/*btn_middle_name			: "btn_middle",
 	btn_middle_text_step1	: "Available dates (1/3)",
 	btn_middle_text_step2	: "The team (2/3)",
-	btn_middle_text_step3	: "Required tools/materials (3/3)",
+	btn_middle_text_step3	: "Required tools/materials (3/3)",*/
+/* ============================ ENDS HERE ================================*/
 
-	btn_back_name			: "btn_back",
-	btn_back_light_image	: "./img/btn_back_light.png",
-	btn_back_dark_image		: "./img/btn_back_dark.png",
-	btn_back_text			: "Previous"
+	btn_back_image_html_component_id	: "imageButtonBack",
+	btn_back_tetx_html_component_id		: "btnLeft",
+	btn_back_light_image				: "./img/btn_back_light.png",
+	btn_back_dark_image					: "./img/btn_back_dark.png",
+	btn_back_text						: "Previous",
+
+	/* ====== GLOBAL ====== */
+
+	var_yes					:"Y",
+	var_no					:"N",
+	var_theme_dark			:"dark",
+	var_theme_light			:"light"
+
+	/* ==================== */
 };
-Object.freeze(AllComponents);
+Object.freeze(AllComponents);//console.log(Object.isFrozen(AllComponents));
 
-console.log	(Object.isFrozen(AllComponents));
+/*THE VALUES OF COMPONENTSCREEN IS POPULATED WITH ALLCOMPONENTS PROPERTIES VALUES*/
 var ComponentScreen = function()
 {
-	name 		= null,
-	icon		= null,
-	visibility	= null,
-	description	= null
+	html_image_component_id = null,
+	html_text_component_id	= null,
+	image_url				= null, /*i.e.: AllComponents.btn_submit_light_image*/
+	visibility				= null, /*Y or N*/
+	description				= null 	/*i.e.: AllComponents.btn_submit_text*/
 };
 
 /*
 *Function to set components visibility in application. The order you set the parameters metters
-* args : receive several components objects and their properties
+* args : receive several componentScreen objects and their properties!
 */
-function setComponentsVisible(){
+function setComponentsVisibility(){
+	var argLength_nrb = arguments.length;
+	var component_obj;
 
-
+	for (var i = 0; i < argLength_nrb; i++){
+		component_obj = arguments[i]; /*arguments is a ComponentScreen object*/
+		componentsVisibility(component_obj);
+		}
 }
+/*
+*
+*SET THE COMPONENTSCREEN OBJECT VISIBLE/INVISIBLE CONFORMING THEIR PROPERTIES
+*/
+function componentsVisibility(_componente_obj){
+		
+		//visibility: hidden;
+		var visibility = null;
+		var INVISIBLE = "visibility: hidden !important;"
+
+		if (_componente_obj.visibility === AllComponents.var_yes){
+			visibility = "";
+
+		}else if(_componente_obj.visibility === AllComponents.var_no)
+		{
+			visibility = INVISIBLE;
+		};
+
+		var htmlComponentImageId = document.getElementById(_componente_obj.html_image_component_id);
+		var htmlComponentTextId = document.getElementById(_componente_obj.html_text_component_id);
+
+		htmlComponentImageId.setAttribute('style', 'content : url("' + _componente_obj.image_url + '") !important; ' + visibility);
+
+		/*THIS LOOKS LIKE NOT MAKE SENSE BUT THE PROGRAMMER CAN DEFINE TEXT TO A COMPONENTE AND SET IT A INVISIBLE (AT THE SAME TIME) BY ANY REASON*/
+		htmlComponentTextId.setAttribute('style', visibility);/*THE STYLE PROPERTIE VISIBILITY SET*/
+		htmlComponentTextId.innerHTML = _componente_obj.description;
+}
+/*function componentsWithoutImageVisibility(_componente_obj){}*/
+
+/* ===============================  WIZARD COMPONENT ================================= */
+
+var WizardComponent = {
+
+	html_label_component_id : "btnCenterLabel",
+	html_steps_component_id : "btnCenterSteps",
+	wizard_label			: undefined,
+	maximum_steps_number 	: 0,
+	inicial_step			: 0,
+	current_step_number		: 0,
+	nextStepNumber 			: function(){
+		if (this.current_step_number != this.maximum_steps_number){
+			return this.current_step_number + 1;
+		}
+		return null;
+	}
+};
+Object.freeze(WizardComponent);//console.log(Object.isFrozen(WizardComponent));
+
+
+function starWizard(_wizardComponent_obj){//WizardComponent Object - Only to set wizard start one time!
+
+	var wizardLabel = document.getElementById(_wizardComponent_obj.html_label_component_id);
+	var wizardSteps = document.getElementById(_wizardComponent_obj.html_steps_component_id);
+
+	wizardLabel.innerHTML = _wizardComponent_obj.wizardLabel;
+	wizardSteps.innerHTML = setWizardSteps(_wizardComponent_obj.current_step_number,_wizardComponent_obj.maximum_steps_number);
+
+	function setWizardSteps(_currentStep, _maximumStep){
+		return ' (' + _currentStep + '/' +_maximumStep + ') ';
+	}
+}
+/* ========================== WIZARD COMPONENT ENDS HERE ============================= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //SET INVISIBLE COMPONENTES
@@ -228,5 +311,13 @@ function setComponentsVisible(){
 		setBtnBackInvisible();
 		setTopLabelInvisible();
 	}*/
-//default theme = dark
-setThemeColor("dark");
+
+/* ======= SET DEFAULT THEME =======*/
+//DEFAULT THEME = DARK THEME
+
+/********************************
+* POSSIBLE THEMES (24/01/2015): *
+*	-dark                       *
+*	-light                      * 
+********************************/
+setThemeColor(AllComponents.var_theme_dark);

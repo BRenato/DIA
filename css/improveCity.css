@@ -9,8 +9,8 @@
 }
 .screen-canvas{
 	background-color: white;
-	/*border-color: red;*/     /*TO REMOVE*/
-	/*border-style: dashed;*/  /*TO REMOVE*/
+	border-color: red;     /*TO REMOVE*/
+	border-style: dashed;  /*TO REMOVE*/
     position: relative;
     width: 100%;
     height: 100%;
@@ -96,29 +96,30 @@ height: 7%;
     padding-right: 15px;
     text-align: right;
     position: relative;
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 /*BOTOOM*/
 #btn_left{
     float: left;
     height: 100%;
-    width: 33%;
+    width: 30%;
     text-align: left;
     position: relative;
+    margin-left: 10px;
 }
 #btn_center{
     float: left;
     height: 100%;
-    width: 33%;
+    width: 35%;
     text-align: center;
     position: relative;
 }
 #btn_right{
     float: right;
     height: 100%;
-    width: 33%;
-    padding-right: 15px;
+    width: 30%;
+    margin-right: 10px;
     text-align: right;
     position: relative;
 }

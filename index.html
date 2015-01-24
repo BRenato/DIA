@@ -26,7 +26,7 @@
       </ul>
     </div>
 
-    <div class="canvas" style="" id="background">
+    <div class="canvas" id="background">
       
       <div id="top">  
         <div id="btn_left_top" class="screen-canvas navbar-default"> <!--navbar navbar-default-->
@@ -46,7 +46,6 @@
           
           <!-- ============= SCREENS TARGET ! ============= -->
           <div class="screen-canvas screen-canvas-borders" id ="screen-target">
-
                   <!-- === ALLWAYS AN EMPTY BLOCK ===-->
           </div>
           <!-- ================ ENDS HERE ! =============== -->
@@ -55,14 +54,17 @@
         </div>
       </div>
       
-      <!-- === BUTTONS ===-->
+      <!-- === BUTTONS === -->
 
       <div id="bottom" class="buttons">
         <div id="btn_left" class="screen-canvas">
           <img id="imageButtonBack"></img>
           <a href="" class="improve-text" id="btnLeft"></a>
         </div>
-        <div id="btn_center" class="screen-canvas"><a href="#" id="btnCenter"></a></div>
+        <div id="btn_center" class="screen-canvas">
+          <a href="#" id="btnCenterLabel"></a>
+          <a href="#" id="btnCenterSteps"></a>
+        </div>
         <div id="btn_right" class="screen-canvas">
           <a href="#" id="btnSubmit"></a>
           <img id="imageButtonSubmit"></img>
@@ -70,7 +72,7 @@
       </div>
     </div>
     
-    <script src="js/framework/screensLoad.js"></script>
+    <!--<script src="js/framework/screensLoad.js"></script>-->
     
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -79,6 +81,13 @@
     <script src="js/libs/bootstrap.min.js"></script>
     <script src="js/libs/jasny-bootstrap.min.js"></script>
 
+  <!-- ========== IMPROVECITY FRAMEWORK ========= -->
+  <script type="text/javascript" src="js/framework/frameworkImprove.js"></script>
+  <!-- ==== IMPROVECITY FRAMEWORK ENDS HERE! ==== -->
+  
+  <!--<script type="text/javascript">
+      setThemeColor("light");
+  </script>-->
 
 </body>
 </html>
