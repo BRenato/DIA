@@ -1,15 +1,4 @@
-//var btn = new Object();
-//	btn.text = "_cenasNinja";
-//alert(fieldNameElement);
-//fieldNameElement.innerHTML = btn.text;
-//	$("btnSubmit").css("color","red");
-//fieldNameElement.setAttribute('style', 'color: white !important');
-//fieldNameElement.style.;
-//document.getElementById(id).style.property=new style
-//setStyle();
-
-
-	/*MENU LABELS AND COMPONENTS*/
+/*MENU LABELS AND COMPONENTS*/
 	var menuItems_arr = document.getElementsByClassName('menu-items');
 	var numberMenuElements_nbr = menuItems_arr.length;
 
@@ -18,33 +7,8 @@
 	var iconBars_arr = document.getElementsByClassName('icon-bar');
 	var numberIconsBar_nbr = iconBars_arr.length;
 
-	//DARK OR LIGHT THEMES
-
-
-	var setMenuAndLabelsColor = function(_colorTheme){
-		if(_colorTheme == "dark"){
-			for (var i = 0; i < numberMenuElements_nbr; i++) {
-			 	
-			 	var field = menuItems_arr[i];
-			 	field.setAttribute('style', 'color: #282828  !important');
-			 };
-			 var menu = document.getElementById('navmenu');
-			 menu.setAttribute('style','background-color: #F4F4F4 !important');
-
-			 menuLabel.setAttribute('style', 'color: #282828  !important');
-		}else{
-			for (var i = 0; i < numberMenuElements_nbr; i++) {
-			 	
-			 	var field = menuItems_arr[i];
-			 	field.setAttribute('style', 'color: white !important');
-			 };
-			 var menu = document.getElementById('navmenu');
-			 menu.setAttribute('style','background-color: #282828 !important');
-
-			 menuLabel.setAttribute('style', 'color: white !important');
-		}
-	};
-
+//DARK OR LIGHT THEMES
+/* =================== THIS IS FOR SCREEN THEME CONTROL =================== */
 	var setThemeColor = function (_colorTheme){
 		//body ...
 		var btnS = document.getElementById('imageButtonSubmit');
@@ -72,7 +36,31 @@
 		
 	}
 
-	var setIconBarsColors = function(_colorTheme){
+	var setMenuAndLabelsColor = function(_colorTheme){
+		if(_colorTheme == "dark"){
+			for (var i = 0; i < numberMenuElements_nbr; i++) {
+			 	
+			 	var field = menuItems_arr[i];
+			 	field.setAttribute('style', 'color: #282828  !important');
+			 };
+			 var menu = document.getElementById('navmenu');
+			 menu.setAttribute('style','background-color: #F4F4F4 !important');
+
+			 menuLabel.setAttribute('style', 'color: #282828  !important');
+		}else{
+			for (var i = 0; i < numberMenuElements_nbr; i++) {
+			 	
+			 	var field = menuItems_arr[i];
+			 	field.setAttribute('style', 'color: white !important');
+			 };
+			 var menu = document.getElementById('navmenu');
+			 menu.setAttribute('style','background-color: #282828 !important');
+
+			 menuLabel.setAttribute('style', 'color: white !important');
+		}
+	};
+
+	function setIconBarsColors(_colorTheme){
 		for (var i = 0; i < numberIconsBar_nbr; i++) {
 
 				var bar = iconBars_arr[i];
@@ -80,52 +68,9 @@
 		}
 	};
 
-//SET INVISIBLE COMPONENTES
-
-	/*var setBtnSubmitInvisible = function(){
-		
-		var btnS = document.getElementById('imageButtonSubmit');
-		btnS.setAttribute('style', 'display: none !important');
-		btnS.setAttribute('style', 'visibility: hidden !important');
-
-
-		var btnS = document.getElementById('btnSubmit');
-		btnS.setAttribute('style', 'display: none !important');
-		btnS.setAttribute('style', 'visibility: hidden !important');
-	};
-	var setBtnMiddleInvisible = function(){
-
-		var btnM = document.getElementById('btnCenter');
-		btnM.setAttribute('style', 'display: none !important');
-		btnM.setAttribute('style', 'visibility: hidden !important');
-	};
-	var setBtnBackInvisible = function(){
-		var btnB = document.getElementById('imageButtonBack');
-		btnB.setAttribute('style', 'display: none !important');
-		btnB.setAttribute('style', 'visibility: hidden !important');
-
-
-		var btnB = document.getElementById('btnLeft');
-		btnB.setAttribute('style', 'display: none !important');
-		btnB.setAttribute('style', 'visibility: hidden !important');
-
-	};
-	var setTopLabelInvisible = function(){
-
-		var topLabel = document.getElementById('labelTop');
-		topLabel.setAttribute('style', 'display: none !important');
-		topLabel.setAttribute('style', 'visibility: hidden !important');
-	};
-
-	var setAllComponentesInvisible = function(){
-		setBtnSubmitInvisible();
-		setBtnMiddleInvisible();
-		setBtnBackInvisible();
-		setTopLabelInvisible();
-	}*/
 
 //SET VISIBLE COMPONENTS
-
+/* =================== THIS IS FOR COMPONENTS SCREEN VISIBILITY AND THEME COLOR CONTROL =================== */
 	var setBtnSubmitVisible = function(_colorTheme, _text){
 
 		var btnS = document.getElementById('imageButtonSubmit');
@@ -200,5 +145,88 @@
 	};
 
 
+
+/* =================== COMPONENTS CONSTRUCTION =================== */
+var AllComponents = {
+
+	btn_submit_name			: "btn_submit",
+	btn_submit_light_image	: "./img/btn_submit_light.png",
+	btn_submit_dark_image	: "./img/btn_submit_dark.png",
+	btn_submit_text			: "Submit",
+
+	/*btn_middle_image*/
+	btn_middle_text_step1	: "Available dates (1/3)",
+	btn_middle_text_step2	: "The team (2/3)",
+	btn_middle_text_step3	: "Required tools/materials (3/3)",
+
+	btn_back_name			: "btn_back",
+	btn_back_light_image	: "./img/btn_back_light.png",
+	btn_back_dark_image		: "./img/btn_back_dark.png",
+	btn_back_text			: "Previous"
+};
+Object.freeze(AllComponents);
+
+console.log	(Object.isFrozen(AllComponents));
+var ComponentScreen = function()
+{
+	name 		= null,
+	icon		= null,
+	visibility	= null,
+	description	= null
+};
+
+/*
+*Function to set components visibility in application. The order you set the parameters metters
+* args : receive several components objects and their properties
+*/
+function setComponentsVisible(){
+
+
+}
+
+
+//SET INVISIBLE COMPONENTES
+
+	/*var setBtnSubmitInvisible = function(){
+		
+		var btnS = document.getElementById('imageButtonSubmit');
+		btnS.setAttribute('style', 'display: none !important');
+		btnS.setAttribute('style', 'visibility: hidden !important');
+
+
+		var btnS = document.getElementById('btnSubmit');
+		btnS.setAttribute('style', 'display: none !important');
+		btnS.setAttribute('style', 'visibility: hidden !important');
+	};
+	var setBtnMiddleInvisible = function(){
+
+		var btnM = document.getElementById('btnCenter');
+		btnM.setAttribute('style', 'display: none !important');
+		btnM.setAttribute('style', 'visibility: hidden !important');
+	};
+	var setBtnBackInvisible = function(){
+		var btnB = document.getElementById('imageButtonBack');
+		btnB.setAttribute('style', 'display: none !important');
+		btnB.setAttribute('style', 'visibility: hidden !important');
+
+
+		var btnB = document.getElementById('btnLeft');
+		btnB.setAttribute('style', 'display: none !important');
+		btnB.setAttribute('style', 'visibility: hidden !important');
+
+	};
+	var setTopLabelInvisible = function(){
+
+		var topLabel = document.getElementById('labelTop');
+		topLabel.setAttribute('style', 'display: none !important');
+		topLabel.setAttribute('style', 'visibility: hidden !important');
+	};
+
+	var setAllComponentesInvisible = function(){
+		setBtnSubmitInvisible();
+		setBtnMiddleInvisible();
+		setBtnBackInvisible();
+		setTopLabelInvisible();
+	}*/
 //default theme = dark
 setThemeColor("dark");

@@ -1,5 +1,11 @@
-//var _screen = 
-$(function(){$("#screen-target").load("divTest.html")});
+$(function(){$("#screen-target").load("screens/divTest.html")});
+
+
+
+
+
+
+
 
 /*var Animal = {
   	type: "Invertebrates", // Default value of properties
