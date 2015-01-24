@@ -11,28 +11,37 @@
 
 // This is the one to use most commonly when creating a new issue
 function Issue(owner, title, description, type, category){
+	// the owner of the issue, the user who is responsible for the issue, and by default the creator
 	this.owner = owner;
 	this.title = title;
 	this.description = description;
+	// the type of the Issue (Problem, Improvement, new Idea/Project)
 	this.type = type;
+	// the category of the issue (Sports, Health, Social, Hobbies, ...)
 	this.category = category;
+	// the creation date is automatically assigned on the creation of the object
 	this.creationDate = Date.now();
+	// the status of the issue, when creating one it is 'I' (Initial)
 	this.status = 'I';
+	// the number of likes
 	this.likes = 0;
+	// the number of dislikes
 	this.dislikes = 0;
+	// the workgroup is the 'Task Force' that will resolve the issue, organized by the owner, initially it is set to null
 	this.workgroup = null;
 }
 
-// Issue.prototype.nextStatus = function(){
-// 	var possibleStatus = ['I', 'A', 'O', 'F'];
+Issue.prototype.nextStatus = function(){
+	var possibleStatus = ['I', 'A', 'O', 'F'];
 
-// 	this.status = possibleStatus[(possibleStatus.indexOf(this.status) + 1)];
-// };
+	this.status = possibleStatus[possibleStatus.indexOf(this.status) + 1];
+};
 
 Issue.prototype.incrementLikes = function(){
 	this.likes += 1;
 };
 
+// increments de number of likes by 1
 Issue.prototype.incrementDislikes = function(){
 	this.dislikes += 1;
 };
@@ -121,24 +130,37 @@ WorkGroup.prototype.removeInvitedVolunteer = function(invitedVolunteer){
 
 // add a tool or material to the toolsMaterial list
 WorkGroup.prototype.addToolMaterial = function(toolMaterial){
-	this.toolsMaterials.push(toolMaterial);
+	var alreadyAdded_bool = this.toolsMaterials.indexOf(toolMaterial) > -1
+	if (!alreadyAdded_bool){
+		this.toolsMaterials.push(toolMaterial);
+	}
+	return !alreadyAdded_bool;
 };
 
 // remove a tool or material to the toolsMaterial list
 WorkGroup.prototype.addToolMaterial = function(toolMaterial){
-	this.toolsMaterials.push(toolMaterial);
+	var toolMaterialIndex = this.toolsMaterials.indexOf(toolMaterial);
+	if (toolMaterialIndex > -1) {
+    	return this.toolsMaterials.splice(toolMaterialIndex, 1);
+	}
+	else{
+		return false;
+	}
 };
-
 
 /*********************************************************
 *	ToolMaterial
 */
-function ToolMaterial(){
+function ToolMaterial(picture, description, measureUnit){
 	this.picture = null;
 	this.description = null;
 	this.amount = null;
 	this.measureUnit = null;
 }
+
+ToolMaterial.prototype.setAmount = function(amount) {
+	this.amount = amount;
+};
 
 /*********************************************************
 *	User
