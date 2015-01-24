@@ -20,14 +20,14 @@
 		var backColor = document.getElementById('background');
 
 		switch (_colorTheme) {
-			case AllComponents.var_theme_dark:
+			case Controller.var_theme_dark:
 				backColor.setAttribute('style', 'background-color: #282828 !important');
 				iconBar.setAttribute('style','background-color: white');
 				
 				setMenuAndLabelsColor(_colorTheme);/*menu and their own labels*/
 				setIconBarsColors('white');/*button horizontal bars*/
 			break;
-			case AllComponents.var_theme_light:
+			case Controller.var_theme_light:
 				backColor.setAttribute('style', 'background-color: white !important');
 				iconBar.setAttribute('style','background-color: #282828');
 
@@ -136,10 +136,11 @@
 //The wizard components as an individual declaration, don't use this method. Use Wizard Components to set a new Wizard inicialization
 var AllComponents = { 
 
-	btn_submit_name			: "btn_submit",
-	btn_submit_light_image	: "./img/btn_submit_light.png",
-	btn_submit_dark_image	: "./img/btn_submit_dark.png",
-	btn_submit_text			: "Submit",
+	btn_submit_image_html_component_id	: "imageButtonSubmit",
+	btn_submit_tetx_html_component_id	: "btnSubmit",
+	btn_submit_light_image				: "./img/btn_submit_light.png",
+	btn_submit_dark_image				: "./img/btn_submit_dark.png",
+	btn_submit_text						: "Submit",
 
 /* ===== BTN MIDDLE IS NOT HERE BECAUSE IS MADE BY WIZARD COMPONENT ===== */
 	/*btn_middle_image?*/
@@ -155,16 +156,34 @@ var AllComponents = {
 	btn_back_dark_image					: "./img/btn_back_dark.png",
 	btn_back_text						: "Previous",
 
-	/* ====== GLOBAL ====== */
-
-	var_yes					:"Y",
-	var_no					:"N",
-	var_theme_dark			:"dark",
-	var_theme_light			:"light"
-
-	/* ==================== */
 };
 Object.freeze(AllComponents);//console.log(Object.isFrozen(AllComponents));
+
+
+var Controller = {
+
+/* ====== GLOBAL ====== */
+	var_yes					: "Y",
+	var_no					: "N",
+	var_theme_dark			: "dark",
+	var_theme_light			: "light",
+	var_current_theme		: undefined, //Controller.var_theme_dark || Controller.var_theme_light
+	var_dark_color_code		: '#282828',
+	var_light_color_code	: 'white',
+	getColorCodeTheme		: function(){
+		var theme = this.currentTheme;
+		switch(theme){
+			case Controller.var_theme_dark:
+				return Controller.var_dark_color_code;
+			break;
+			case Controller.var_theme_light:
+				return Controller.var_light_color_code;
+			break;
+		}
+	}
+
+/* ==== ENDS HERE ! ==== */
+}
 
 /*THE VALUES OF COMPONENTSCREEN IS POPULATED WITH ALLCOMPONENTS PROPERTIES VALUES*/
 var ComponentScreen = function()
@@ -187,7 +206,7 @@ function setComponentsVisibility(){
 	for (var i = 0; i < argLength_nrb; i++){
 		component_obj = arguments[i]; /*arguments is a ComponentScreen object*/
 		componentsVisibility(component_obj);
-		}
+	}
 }
 /*
 *
@@ -199,10 +218,10 @@ function componentsVisibility(_componente_obj){
 		var visibility = null;
 		var INVISIBLE = "visibility: hidden !important;"
 
-		if (_componente_obj.visibility === AllComponents.var_yes){
+		if (_componente_obj.visibility === Controller.var_yes){
 			visibility = "";
 
-		}else if(_componente_obj.visibility === AllComponents.var_no)
+		}else if(_componente_obj.visibility === Controller.var_no)
 		{
 			visibility = INVISIBLE;
 		};
@@ -220,10 +239,12 @@ function componentsVisibility(_componente_obj){
 
 /* ===============================  WIZARD COMPONENT ================================= */
 
+/*TO START A WIZARD, FIST CREATE AN OBJECT WizardComponent WITH ALL PROPERTIES*/
 var WizardComponent = {
 
 	html_label_component_id : "btnCenterLabel",
 	html_steps_component_id : "btnCenterSteps",
+	component_color_code	: Controller.getColorCodeTheme(), //Controller.var_dark_color_code || Controller.var_light_color_code
 	wizard_label			: undefined,
 	maximum_steps_number 	: 0,
 	inicial_step			: 0,
@@ -237,17 +258,22 @@ var WizardComponent = {
 };
 Object.freeze(WizardComponent);//console.log(Object.isFrozen(WizardComponent));
 
+/*SECOND, SET startWizard() AND SEND IN ARGUMENT THE PREVIOUSLY CREATED OBJECT*/
+function starWizard(_wizardComponent_obj){//WizardComponent Object - Only set starWizard one time !
 
-function starWizard(_wizardComponent_obj){//WizardComponent Object - Only to set wizard start one time!
-
+	var currentTheme = Controller.var_current_theme;
+	
 	var wizardLabel = document.getElementById(_wizardComponent_obj.html_label_component_id);
 	var wizardSteps = document.getElementById(_wizardComponent_obj.html_steps_component_id);
 
-	wizardLabel.innerHTML = _wizardComponent_obj.wizardLabel;
-	wizardSteps.innerHTML = setWizardSteps(_wizardComponent_obj.current_step_number,_wizardComponent_obj.maximum_steps_number);
+	wizardLabel.setAttribute('style', 'color: ' + component_color_code + '!important');
+	wizardSteps.setAttribute('style', 'color: ' + component_color_code+ '!important');
 
-	function setWizardSteps(_currentStep, _maximumStep){
-		return ' (' + _currentStep + '/' +_maximumStep + ') ';
+	wizardLabel.innerHTML = _wizardComponent_obj.wizardLabel;
+	wizardSteps.innerHTML = setWizardSteps();
+
+	function setWizardSteps(){
+		return ' (' + _wizardComponent_obj.current_step_number + '/' + _wizardComponent_obj.maximum_steps_number + ') ';
 	}
 }
 /* ========================== WIZARD COMPONENT ENDS HERE ============================= */
@@ -320,4 +346,6 @@ function starWizard(_wizardComponent_obj){//WizardComponent Object - Only to set
 *	-dark                       *
 *	-light                      * 
 ********************************/
-setThemeColor(AllComponents.var_theme_dark);
+Controller.current_theme = Controller.var_theme_dark;
+console.log('LOG - Theme: ' + Controller.current_theme);
+setThemeColor(Controller.current_theme);
