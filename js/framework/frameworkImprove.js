@@ -1,15 +1,22 @@
-/*MENU LABELS AND COMPONENTS*/
-	var menuItems_arr = document.getElementsByClassName('menu-items');
-	var numberMenuElements_nbr = menuItems_arr.length;
+/* ============ GLOBAL VARS ============ */
+var menuItems_arr = document.getElementsByClassName('menu-items');
+var numberMenuElements_nbr = menuItems_arr.length;
 
-	var menuLabel = document.getElementById('menuLabel');
-	
-	var iconBars_arr = document.getElementsByClassName('icon-bar');
-	var numberIconsBar_nbr = iconBars_arr.length;
+var menuLabel = document.getElementById('menuLabel');
+
+var iconBars_arr = document.getElementsByClassName('icon-bar');
+var numberIconsBar_nbr = iconBars_arr.length;
+/* ======================= */
+
+Controller.var_current_theme = Controller.var_theme_dark;
+
+tt('LOG - Theme: ' + Controller.var_current_theme);
+setThemeColor(Controller.var_current_theme);
+
 
 //DARK OR LIGHT THEMES
 /* =================== THIS IS FOR SCREEN THEME CONTROL =================== */
-	var setThemeColor = function (_colorTheme){
+	function setThemeColor(_colorTheme){
 
 		var btnSubmit = document.getElementById('imageButtonSubmit');
 		var btnBack = document.getElementById('imageButtonBack');
@@ -38,7 +45,7 @@
 		
 	}
 
-	var setMenuAndLabelsColor = function(_colorTheme){
+	function setMenuAndLabelsColor(_colorTheme){
 		if(_colorTheme == "dark"){
 			for (var i = 0; i < numberMenuElements_nbr; i++) {
 			 	
@@ -160,38 +167,13 @@ var AllComponents = {
 Object.freeze(AllComponents);//console.log(Object.isFrozen(AllComponents));
 
 
-var Controller = {
-
-/* ====== GLOBAL ====== */
-	var_yes					: "Y",
-	var_no					: "N",
-	var_theme_dark			: "dark",
-	var_theme_light			: "light",
-	var_current_theme		: undefined, //Controller.var_theme_dark || Controller.var_theme_light
-	var_dark_color_code		: '#282828',
-	var_light_color_code	: 'white',
-	getColorCodeTheme		: function(){
-		var theme = this.currentTheme;
-		switch(theme){
-			case Controller.var_theme_dark:
-				return Controller.var_dark_color_code;
-			break;
-			case Controller.var_theme_light:
-				return Controller.var_light_color_code;
-			break;
-		}
-	}
-
-/* ==== ENDS HERE ! ==== */
-}
-
 /*THE VALUES OF COMPONENTSCREEN IS POPULATED WITH ALLCOMPONENTS PROPERTIES VALUES*/
 var ComponentScreen = function()
 {
-	html_image_component_id = null,
-	html_text_component_id	= null,
+	html_image_component_id = null, /*i.e.: AllComponents.btn_submit_image_html_component_id*/
+	html_text_component_id	= null,	/*i.e.: AllComponents.btn_submit_tetx_html_component_id*/
 	image_url				= null, /*i.e.: AllComponents.btn_submit_light_image*/
-	visibility				= null, /*Y or N*/
+	visibility				= null, /*Y/N : Controller.var_yes || Controller.var_no*/
 	description				= null 	/*i.e.: AllComponents.btn_submit_text*/
 };
 
@@ -212,34 +194,31 @@ function setComponentsVisibility(){
 *
 *SET THE COMPONENTSCREEN OBJECT VISIBLE/INVISIBLE CONFORMING THEIR PROPERTIES
 */
-function componentsVisibility(_componente_obj){
+function componentsVisibility(_component_obj){
 		
-		//visibility: hidden;
-		var visibility = null;
-		var INVISIBLE = "visibility: hidden !important;"
+	//visibility: hidden;
+	var visibility_str = "";
+	var INVISIBLE = "visibility: hidden !important;"
 
-		if (_componente_obj.visibility === Controller.var_yes){
-			visibility = "";
+	if(_component_obj.visibility === Controller.var_no)
+	{
+		visibility_str = INVISIBLE;
+	};
 
-		}else if(_componente_obj.visibility === Controller.var_no)
-		{
-			visibility = INVISIBLE;
-		};
+	var htmlComponentImageId = document.getElementById(_component_obj.html_image_component_id);
+	var htmlComponentTextId = document.getElementById(_component_obj.html_text_component_id);
 
-		var htmlComponentImageId = document.getElementById(_componente_obj.html_image_component_id);
-		var htmlComponentTextId = document.getElementById(_componente_obj.html_text_component_id);
+	htmlComponentImageId.setAttribute('style', 'content : url("' + _component_obj.image_url + '") !important; ' + visibility_str);
 
-		htmlComponentImageId.setAttribute('style', 'content : url("' + _componente_obj.image_url + '") !important; ' + visibility);
-
-		/*THIS LOOKS LIKE NOT MAKE SENSE BUT THE PROGRAMMER CAN DEFINE TEXT TO A COMPONENTE AND SET IT A INVISIBLE (AT THE SAME TIME) BY ANY REASON*/
-		htmlComponentTextId.setAttribute('style', visibility);/*THE STYLE PROPERTIE VISIBILITY SET*/
-		htmlComponentTextId.innerHTML = _componente_obj.description;
+	/*THIS LOOKS LIKE NOT MAKE SENSE BUT THE PROGRAMMER CAN DEFINE TEXT TO A COMPONENTE AND SET IT A INVISIBLE (AT THE SAME TIME) BY ANY REASON*/
+	htmlComponentTextId.setAttribute('style', visibility_str);/*THE STYLE PROPERTIE VISIBILITY SET*/
+	htmlComponentTextId.innerHTML = _component_obj.description;
 }
 /*function componentsWithoutImageVisibility(_componente_obj){}*/
 
 /* ===============================  WIZARD COMPONENT ================================= */
 
-/*TO START A WIZARD, FIST CREATE AN OBJECT WizardComponent WITH ALL PROPERTIES*/
+/*TO START A WIZARD, FIRST CREATE AN OBJECT WizardComponent WITH ALL PROPERTIES*/
 var WizardComponent = {
 
 	html_label_component_id : "btnCenterLabel",
@@ -250,13 +229,14 @@ var WizardComponent = {
 	inicial_step			: 0,
 	current_step_number		: 0,
 	nextStepNumber 			: function(){
-		if (this.current_step_number != this.maximum_steps_number){
-			return this.current_step_number + 1;
+tt(":: NextWizardStep ::");
+		if (WizardComponent.current_step_number != WizardComponent.maximum_steps_number){
+			return WizardComponent.current_step_number + 1;
 		}
 		return null;
 	}
 };
-Object.freeze(WizardComponent);//console.log(Object.isFrozen(WizardComponent));
+Object.seal(WizardComponent);//console.log(Object.isFrozen(WizardComponent));
 
 /*SECOND, SET startWizard() AND SEND IN ARGUMENT THE PREVIOUSLY CREATED OBJECT*/
 function starWizard(_wizardComponent_obj){//WizardComponent Object - Only set starWizard one time !
@@ -266,16 +246,12 @@ function starWizard(_wizardComponent_obj){//WizardComponent Object - Only set st
 	var wizardLabel = document.getElementById(_wizardComponent_obj.html_label_component_id);
 	var wizardSteps = document.getElementById(_wizardComponent_obj.html_steps_component_id);
 
-	wizardLabel.setAttribute('style', 'color: ' + component_color_code + '!important');
-	wizardSteps.setAttribute('style', 'color: ' + component_color_code+ '!important');
+	wizardLabel.setAttribute('style', 'color: ' + _wizardComponent_obj.component_color_code + '!important');
+	wizardSteps.setAttribute('style', 'color: ' + _wizardComponent_obj.component_color_code+ '!important');
 
-	wizardLabel.innerHTML = _wizardComponent_obj.wizardLabel;
-	wizardSteps.innerHTML = setWizardSteps();
-
-	function setWizardSteps(){
-		return ' (' + _wizardComponent_obj.current_step_number + '/' + _wizardComponent_obj.maximum_steps_number + ') ';
-	}
-}
+	wizardLabel.innerHTML = _wizardComponent_obj.wizard_label;
+	wizardSteps.innerHTML = ' (' + _wizardComponent_obj.current_step_number + '/' + _wizardComponent_obj.maximum_steps_number + ') ';
+};
 /* ========================== WIZARD COMPONENT ENDS HERE ============================= */
 
 
@@ -346,6 +322,3 @@ function starWizard(_wizardComponent_obj){//WizardComponent Object - Only set st
 *	-dark                       *
 *	-light                      * 
 ********************************/
-Controller.current_theme = Controller.var_theme_dark;
-console.log('LOG - Theme: ' + Controller.current_theme);
-setThemeColor(Controller.current_theme);

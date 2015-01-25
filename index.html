@@ -4,7 +4,8 @@
 
 	<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.css">-->
   <script src="js/libs/jquery-1.11.2.js"></script> 
-   <script src="js/libs/jquery-1.11.2.min.js"></script> 
+  <script src="js/libs/jquery-1.11.2.min.js"></script>
+  <script src="js/framework/controller.js"></script> 
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/improveCity.css">
@@ -85,9 +86,19 @@
   <script type="text/javascript" src="js/framework/frameworkImprove.js"></script>
   <!-- ==== IMPROVECITY FRAMEWORK ENDS HERE! ==== -->
   
-  <!--<script type="text/javascript">
-      setThemeColor("light");
-  </script>-->
+  <script type="text/javascript">
+      setThemeColor(Controller.current_theme);
+      
+      WizardComponent.wizard_label = "Teste";
+      WizardComponent.maximum_steps_number = 5;
+      WizardComponent.current_step_number = 3;
+      
+      tt(WizardComponent);
+
+      starWizard(WizardComponent);
+      WizardComponent.nextStepNumber();
+      tt(WizardComponent.nextStepNumber());
+  </script>
 
 </body>
 </html>
