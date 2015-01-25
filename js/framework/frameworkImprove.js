@@ -1,141 +1,91 @@
 /* ============ GLOBAL VARS ============ */
-var menuItems_arr = document.getElementsByClassName('menu-items');
-var numberMenuElements_nbr = menuItems_arr.length;
 
-var menuLabel = document.getElementById('menuLabel');
 
-var iconBars_arr = document.getElementsByClassName('icon-bar');
-var numberIconsBar_nbr = iconBars_arr.length;
-/* ======================= */
+
+
+
+/* =========== ENDS HERE ============= */
+
+/*DEFAULT THEME = DARK*/
+/********************************
+* POSSIBLE THEMES (24/01/2015): *
+*	-dark                       *
+*	-light                      * 
+********************************/
 
 Controller.var_current_theme = Controller.var_theme_dark;
-
 tt('LOG - Theme: ' + Controller.var_current_theme);
 setThemeColor(Controller.var_current_theme);
 
+/* =================== THIS IS FOR MENU SCREEN THEME CONTROL =================== */
+function setThemeColor(_colorTheme){
 
-//DARK OR LIGHT THEMES
-/* =================== THIS IS FOR SCREEN THEME CONTROL =================== */
-	function setThemeColor(_colorTheme){
+	var btnSubmit = document.getElementById('imageButtonSubmit');
+	var btnBack = document.getElementById('imageButtonBack');
+		btnSubmit.setAttribute('style', 'display: none');
+		btnBack.setAttribute('style', 'display: none');
 
-		var btnSubmit = document.getElementById('imageButtonSubmit');
-		var btnBack = document.getElementById('imageButtonBack');
-			btnSubmit.setAttribute('style', 'display: none');
-			btnBack.setAttribute('style', 'display: none');
+	var iconBar = document.getElementById('icon-bar');
+	var backColor = document.getElementById('background');
 
-		var iconBar = document.getElementById('icon-bar');
-		var backColor = document.getElementById('background');
-
-		switch (_colorTheme) {
-			case Controller.var_theme_dark:
-				backColor.setAttribute('style', 'background-color: #282828 !important');
-				iconBar.setAttribute('style','background-color: white');
+	switch (_colorTheme) {
+		case Controller.var_theme_dark:
+			backColor.setAttribute('style', 'background-color: ' + Controller.var_dark_color_code +' !important');
+			iconBar.setAttribute('style','background-color: ' + Controller.var_light_color_code);
 				
-				setMenuAndLabelsColor(_colorTheme);/*menu and their own labels*/
-				setIconBarsColors('white');/*button horizontal bars*/
-			break;
-			case Controller.var_theme_light:
-				backColor.setAttribute('style', 'background-color: white !important');
-				iconBar.setAttribute('style','background-color: #282828');
+			setMenuAndLabelsColor(_colorTheme);/*menu and their own labels*/
+			setIconBarsColors(Controller.var_light_color_code);/*button horizontal bars*/
+		break;
+		case Controller.var_theme_light:
+			backColor.setAttribute('style', 'background-color: ' + Controller.var_light_color_code + ' !important');
+			iconBar.setAttribute('style','background-color: ' + Controller.var_dark_color_code);
 
-				setMenuAndLabelsColor(_colorTheme);/*menu and their own labels*/
-				setIconBarsColors('#282828');/*button horizontal bars*/	
-			break;
-		}
-		
+			setMenuAndLabelsColor(_colorTheme);/*menu and their own labels*/
+			setIconBarsColors(Controller.var_dark_color_code);/*button horizontal bars*/	
+		break;
 	}
+		
+}
 
-	function setMenuAndLabelsColor(_colorTheme){
-		if(_colorTheme == "dark"){
+function setMenuAndLabelsColor(_colorTheme){
+	var menuItems_arr = document.getElementsByClassName('menu-items');
+	var numberMenuElements_nbr = menuItems_arr.length;
+	var menuLabel = document.getElementById('menuLabel');
+	switch (_colorTheme) {
+		case Controller.var_theme_light:
 			for (var i = 0; i < numberMenuElements_nbr; i++) {
-			 	
 			 	var field = menuItems_arr[i];
-			 	field.setAttribute('style', 'color: #282828  !important');
-			 };
-			 var menu = document.getElementById('navmenu');
-			 menu.setAttribute('style','background-color: #F4F4F4 !important');
-
-			 menuLabel.setAttribute('style', 'color: #282828  !important');
-		}else{
-			for (var i = 0; i < numberMenuElements_nbr; i++) {
-			 	
+			 	field.setAttribute('style', 'color: ' + Controller.var_light_color_code + '  !important');
+			};
+			var menu = document.getElementById('navmenu');
+			menu.setAttribute('style','background-color: ' + Controller.var_dark_color_code + ' !important');
+			menuLabel.setAttribute('style', 'color: ' + Controller.var_light_color_code + '  !important');
+			break;
+		case Controller.var_theme_dark:
+			for (var i = 0; i < numberMenuElements_nbr; i++) {		 	
 			 	var field = menuItems_arr[i];
-			 	field.setAttribute('style', 'color: white !important');
-			 };
-			 var menu = document.getElementById('navmenu');
-			 menu.setAttribute('style','background-color: #282828 !important');
+			 	field.setAttribute('style', 'color: ' + Controller.var_dark_color_code + ' !important');
+			};
+			var menu = document.getElementById('navmenu');
+			menu.setAttribute('style','background-color: ' + Controller.var_light_color_code + ' !important');
 
-			 menuLabel.setAttribute('style', 'color: white !important');
-		}
-	};
-
-	function setIconBarsColors(_colorTheme){
-		for (var i = 0; i < numberIconsBar_nbr; i++) {
-
-				var bar = iconBars_arr[i];
-				bar.setAttribute('style','background-color:' + _colorTheme);
-		}
-	};
-
-
-//SET VISIBLE COMPONENTS
-/* =================== THIS IS FOR COMPONENTS SCREEN VISIBILITY AND THEME COLOR CONTROL =================== */
-	var setBtnSubmitVisible = function(_colorTheme, _text){
-
-		var btnS = document.getElementById('imageButtonSubmit');
-		var btnText = document.getElementById('btnSubmit');
-		btnText.innerHTML = _text;
-
-		switch (_colorTheme){
-		case "dark":	
-			btnS.setAttribute('style', 'content : url("./img/btn_submit_light.png") !important');
-			btnText.setAttribute('style', 'color: white !important');
+			menuLabel.setAttribute('style', 'color: ' + Controller.var_dark_color_code + ' !important');
 			break;
-		case "light":
-			btnS.setAttribute('style', 'content : url("./img/btn_submit_dark.png") !important');
-			btnText.setAttribute('style', 'color: #282828 !important');
-			break;
-		}
-	};
+		};
+};
+function setIconBarsColors(_colorTheme){
+	var iconBars_arr = document.getElementsByClassName('icon-bar');
+	var numberIconsBar_nbr = iconBars_arr.length;
+	for (var i = 0; i < numberIconsBar_nbr; i++) {
 
-	var setBtnMiddleVisible = function(_colorTheme, _text){
-
-		var btnM = document.getElementById('btnCenter');
-		btnM.innerHTML = _text;
-
-		switch (_colorTheme){
-		case "dark":	
-			btnM.setAttribute('style', 'color: white !important');
-			break;
-		case "light":
-			btnM.setAttribute('style', 'color: #282828 !important');
-			break;
-		}
-	};
+			var bar = iconBars_arr[i];
+			bar.setAttribute('style','background-color:' + _colorTheme);
+	}
+};
+/* ============================= ENDS HERE ============================= */
 
 
-	var setTopLabelVisible = function(_colorTheme, _text){
 
-		var labelTop = document.getElementById('labelTop');
-		labelTop.innerHTML = _text;
-
-		switch (_colorTheme){
-		case "dark":	
-			labelTop.setAttribute('style', 'color: white !important');
-			break;
-		case "light":
-			labelTop.setAttribute('style', 'color: #282828 !important');
-			break;
-		}
-
-	};
-
-	var setAllComponentesVisible = function(_colorTheme, _textBtnS, _textBtnM, _textBtnB, _textTopLabel){
-		setBtnSubmitVisible(_colorTheme, _textBtnS);
-		setBtnMiddleVisible(_colorTheme, _textBtnM);
-		setBtnBackVisible(_colorTheme, _textBtnB);
-		setTopLabelVisible(_colorTheme, _textTopLabel);
-	};
 
 
 
@@ -143,20 +93,15 @@ setThemeColor(Controller.var_current_theme);
 //The wizard components as an individual declaration, don't use this method. Use Wizard Components to set a new Wizard inicialization
 var AllComponents = { 
 
+	//BUTTON SUBMIT
 	btn_submit_image_html_component_id	: "imageButtonSubmit",
 	btn_submit_tetx_html_component_id	: "btnSubmit",
 	btn_submit_light_image				: "./img/btn_submit_light.png",
 	btn_submit_dark_image				: "./img/btn_submit_dark.png",
-	btn_submit_text						: "Submit",
+	btn_submit_text_submit				: "Submit",
+	btn_submit_text2_done				: "Done",
 
-/* ===== BTN MIDDLE IS NOT HERE BECAUSE IS MADE BY WIZARD COMPONENT ===== */
-	/*btn_middle_image?*/
-	/*btn_middle_name			: "btn_middle",
-	btn_middle_text_step1	: "Available dates (1/3)",
-	btn_middle_text_step2	: "The team (2/3)",
-	btn_middle_text_step3	: "Required tools/materials (3/3)",*/
-/* ============================ ENDS HERE ================================*/
-
+	//BUTTON BACK
 	btn_back_image_html_component_id	: "imageButtonBack",
 	btn_back_tetx_html_component_id		: "btnLeft",
 	btn_back_light_image				: "./img/btn_back_light.png",
@@ -164,20 +109,22 @@ var AllComponents = {
 	btn_back_text						: "Previous",
 
 };
-Object.freeze(AllComponents);//console.log(Object.isFrozen(AllComponents));
+Object.freeze(AllComponents);//tt(Object.isFrozen(AllComponents));
 
 
 /*THE VALUES OF COMPONENTSCREEN IS POPULATED WITH ALLCOMPONENTS PROPERTIES VALUES*/
-var ComponentScreen = function()
-{
+var ComponentScreen = function(){
 	html_image_component_id = null, /*i.e.: AllComponents.btn_submit_image_html_component_id*/
 	html_text_component_id	= null,	/*i.e.: AllComponents.btn_submit_tetx_html_component_id*/
 	image_url				= null, /*i.e.: AllComponents.btn_submit_light_image*/
 	visibility				= null, /*Y/N : Controller.var_yes || Controller.var_no*/
 	description				= null 	/*i.e.: AllComponents.btn_submit_text*/
 };
+/* =================== COMPONENTS CONSTRUCTION ENDS HERE =================== */
 
-/*
+/* =================== COMPONENTS VISIBILITY =================== */
+
+/**
 *Function to set components visibility in application. The order you set the parameters metters
 * args : receive several componentScreen objects and their properties!
 */
@@ -189,11 +136,9 @@ function setComponentsVisibility(){
 		component_obj = arguments[i]; /*arguments is a ComponentScreen object*/
 		componentsVisibility(component_obj);
 	}
-}
-/*
-*
-*SET THE COMPONENTSCREEN OBJECT VISIBLE/INVISIBLE CONFORMING THEIR PROPERTIES
-*/
+};
+
+/* == SET THE COMPONENTSCREEN OBJECT VISIBLE/INVISIBLE CONFORMING THEIR PROPERTIES SETTED IN COMPONENTS CONTRUCTION == */
 function componentsVisibility(_component_obj){
 		
 	//visibility: hidden;
@@ -213,8 +158,11 @@ function componentsVisibility(_component_obj){
 	/*THIS LOOKS LIKE NOT MAKE SENSE BUT THE PROGRAMMER CAN DEFINE TEXT TO A COMPONENTE AND SET IT A INVISIBLE (AT THE SAME TIME) BY ANY REASON*/
 	htmlComponentTextId.setAttribute('style', visibility_str);/*THE STYLE PROPERTIE VISIBILITY SET*/
 	htmlComponentTextId.innerHTML = _component_obj.description;
-}
+};
 /*function componentsWithoutImageVisibility(_componente_obj){}*/
+
+
+
 
 /* ===============================  WIZARD COMPONENT ================================= */
 
@@ -231,94 +179,29 @@ var WizardComponent = {
 	nextStepNumber 			: function(){
 tt(":: NextWizardStep ::");
 		if (WizardComponent.current_step_number != WizardComponent.maximum_steps_number){
-			return WizardComponent.current_step_number + 1;
-		}
-		return null;
+			WizardComponent.current_step_number += 1;
+tt(":: CurrentStepNumber = " + WizardComponent.current_step_number + " ::");
+			starWizard();
+		}else{
+tt(":: No more steps possible to define ! ::");
+			return null;
+		};
 	}
 };
-Object.seal(WizardComponent);//console.log(Object.isFrozen(WizardComponent));
+Object.seal(WizardComponent);//tt(Object.isFrozen(WizardComponent));
 
 /*SECOND, SET startWizard() AND SEND IN ARGUMENT THE PREVIOUSLY CREATED OBJECT*/
-function starWizard(_wizardComponent_obj){//WizardComponent Object - Only set starWizard one time !
+function starWizard(){//WizardComponent Object - Only set starWizard one time !
 
 	var currentTheme = Controller.var_current_theme;
 	
-	var wizardLabel = document.getElementById(_wizardComponent_obj.html_label_component_id);
-	var wizardSteps = document.getElementById(_wizardComponent_obj.html_steps_component_id);
+	var wizardLabel = document.getElementById(WizardComponent.html_label_component_id);
+	var wizardSteps = document.getElementById(WizardComponent.html_steps_component_id);
 
-	wizardLabel.setAttribute('style', 'color: ' + _wizardComponent_obj.component_color_code + '!important');
-	wizardSteps.setAttribute('style', 'color: ' + _wizardComponent_obj.component_color_code+ '!important');
+	wizardLabel.setAttribute('style', 'color: ' + WizardComponent.component_color_code + '!important');
+	wizardSteps.setAttribute('style', 'color: ' + WizardComponent.component_color_code+ '!important');
 
-	wizardLabel.innerHTML = _wizardComponent_obj.wizard_label;
-	wizardSteps.innerHTML = ' (' + _wizardComponent_obj.current_step_number + '/' + _wizardComponent_obj.maximum_steps_number + ') ';
+	wizardLabel.innerHTML = WizardComponent.wizard_label;
+	wizardSteps.innerHTML = ' (' + WizardComponent.current_step_number + '/' + WizardComponent.maximum_steps_number + ') ';
 };
 /* ========================== WIZARD COMPONENT ENDS HERE ============================= */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//SET INVISIBLE COMPONENTES
-
-	/*var setBtnSubmitInvisible = function(){
-		
-		var btnS = document.getElementById('imageButtonSubmit');
-		btnS.setAttribute('style', 'display: none !important');
-		btnS.setAttribute('style', 'visibility: hidden !important');
-
-
-		var btnS = document.getElementById('btnSubmit');
-		btnS.setAttribute('style', 'display: none !important');
-		btnS.setAttribute('style', 'visibility: hidden !important');
-	};
-	var setBtnMiddleInvisible = function(){
-
-		var btnM = document.getElementById('btnCenter');
-		btnM.setAttribute('style', 'display: none !important');
-		btnM.setAttribute('style', 'visibility: hidden !important');
-	};
-	var setBtnBackInvisible = function(){
-		var btnB = document.getElementById('imageButtonBack');
-		btnB.setAttribute('style', 'display: none !important');
-		btnB.setAttribute('style', 'visibility: hidden !important');
-
-
-		var btnB = document.getElementById('btnLeft');
-		btnB.setAttribute('style', 'display: none !important');
-		btnB.setAttribute('style', 'visibility: hidden !important');
-
-	};
-	var setTopLabelInvisible = function(){
-
-		var topLabel = document.getElementById('labelTop');
-		topLabel.setAttribute('style', 'display: none !important');
-		topLabel.setAttribute('style', 'visibility: hidden !important');
-	};
-
-	var setAllComponentesInvisible = function(){
-		setBtnSubmitInvisible();
-		setBtnMiddleInvisible();
-		setBtnBackInvisible();
-		setTopLabelInvisible();
-	}*/
-
-/* ======= SET DEFAULT THEME =======*/
-//DEFAULT THEME = DARK THEME
-
-/********************************
-* POSSIBLE THEMES (24/01/2015): *
-*	-dark                       *
-*	-light                      * 
-********************************/

@@ -25,6 +25,9 @@
     padding: 0 10px;
     height: 100%;
 }
+#btn_center p{
+    display: inline;
+}
 
 .title{
     padding-top: 10px;
@@ -103,7 +106,7 @@ height: 7%;
 #btn_left{
     float: left;
     height: 100%;
-    width: 30%;
+    width: 25%;
     text-align: left;
     position: relative;
     margin-left: 10px;
@@ -111,14 +114,14 @@ height: 7%;
 #btn_center{
     float: left;
     height: 100%;
-    width: 33%;
+    width: 40%;
     text-align: center;
     position: relative;
 }
 #btn_right{
     float: right;
     height: 100%;
-    width: 30%;
+    width: 25%;
     margin-right: 10px;
     text-align: right;
     position: relative;

@@ -63,8 +63,8 @@
           <a href="" class="improve-text" id="btnLeft"></a>
         </div>
         <div id="btn_center" class="screen-canvas">
-          <a href="#" id="btnCenterLabel"></a>
-          <a href="#" id="btnCenterSteps"></a>
+          <p id="btnCenterLabel"></p>
+          <p id="btnCenterSteps"></p>
         </div>
         <div id="btn_right" class="screen-canvas">
           <a href="#" id="btnSubmit"></a>
@@ -87,17 +87,17 @@
   <!-- ==== IMPROVECITY FRAMEWORK ENDS HERE! ==== -->
   
   <script type="text/javascript">
-      setThemeColor(Controller.current_theme);
+      //setThemeColor(Controller.current_theme);
       
+      /* ==== WIZARD EXAMPLE ! ==== */
       WizardComponent.wizard_label = "Teste";
       WizardComponent.maximum_steps_number = 5;
-      WizardComponent.current_step_number = 3;
+      WizardComponent.current_step_number = 1;
       
       tt(WizardComponent);
-
-      starWizard(WizardComponent);
-      WizardComponent.nextStepNumber();
-      tt(WizardComponent.nextStepNumber());
+      starWizard();
+      //to define new next step = WizardComponent.nextStepNumber();
+      /* ==== ENDS HERE ! ==== */
   </script>
 
 </body>
