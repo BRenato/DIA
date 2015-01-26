@@ -13,9 +13,10 @@
 *	-light                      * 
 ********************************/
 
-Controller.var_current_theme = Controller.var_theme_dark;
-tt('LOG - Theme: ' + Controller.var_current_theme);
-setThemeColor(Controller.var_current_theme);
+Global.var_current_theme = Global.var_theme_dark;
+tt('LOG - Theme: ' + Global.var_current_theme);
+setThemeColor(Global.var_current_theme);
+tt('getColorCodeTheme: ' + Global.getColorCodeTheme());
 
 /* =================== THIS IS FOR MENU SCREEN THEME CONTROL =================== */
 function setThemeColor(_colorTheme){
@@ -29,19 +30,19 @@ function setThemeColor(_colorTheme){
 	var backColor = document.getElementById('background');
 
 	switch (_colorTheme) {
-		case Controller.var_theme_dark:
-			backColor.setAttribute('style', 'background-color: ' + Controller.var_dark_color_code +' !important');
-			iconBar.setAttribute('style','background-color: ' + Controller.var_light_color_code);
+		case Global.var_theme_dark:
+			backColor.setAttribute('style', 'background-color: ' + Global.var_dark_color_code +' !important');
+			iconBar.setAttribute('style','background-color: ' + Global.var_light_color_code);
 				
 			setMenuAndLabelsColor(_colorTheme);/*menu and their own labels*/
-			setIconBarsColors(Controller.var_light_color_code);/*button horizontal bars*/
+			setIconBarsColors(Global.var_light_color_code);/*button horizontal bars*/
 		break;
-		case Controller.var_theme_light:
-			backColor.setAttribute('style', 'background-color: ' + Controller.var_light_color_code + ' !important');
-			iconBar.setAttribute('style','background-color: ' + Controller.var_dark_color_code);
+		case Global.var_theme_light:
+			backColor.setAttribute('style', 'background-color: ' + Global.var_light_color_code + ' !important');
+			iconBar.setAttribute('style','background-color: ' + Global.var_dark_color_code);
 
 			setMenuAndLabelsColor(_colorTheme);/*menu and their own labels*/
-			setIconBarsColors(Controller.var_dark_color_code);/*button horizontal bars*/	
+			setIconBarsColors(Global.var_dark_color_code);/*button horizontal bars*/	
 		break;
 	}
 		
@@ -52,24 +53,24 @@ function setMenuAndLabelsColor(_colorTheme){
 	var numberMenuElements_nbr = menuItems_arr.length;
 	var menuLabel = document.getElementById('menuLabel');
 	switch (_colorTheme) {
-		case Controller.var_theme_light:
+		case Global.var_theme_light:
 			for (var i = 0; i < numberMenuElements_nbr; i++) {
 			 	var field = menuItems_arr[i];
-			 	field.setAttribute('style', 'color: ' + Controller.var_light_color_code + '  !important');
+			 	field.setAttribute('style', 'color: ' + Global.var_light_color_code + '  !important');
 			};
 			var menu = document.getElementById('navmenu');
-			menu.setAttribute('style','background-color: ' + Controller.var_dark_color_code + ' !important');
-			menuLabel.setAttribute('style', 'color: ' + Controller.var_light_color_code + '  !important');
+			menu.setAttribute('style','background-color: ' + Global.var_dark_color_code + ' !important');
+			menuLabel.setAttribute('style', 'color: ' + Global.var_light_color_code + '  !important');
 			break;
-		case Controller.var_theme_dark:
+		case Global.var_theme_dark:
 			for (var i = 0; i < numberMenuElements_nbr; i++) {		 	
 			 	var field = menuItems_arr[i];
-			 	field.setAttribute('style', 'color: ' + Controller.var_dark_color_code + ' !important');
+			 	field.setAttribute('style', 'color: ' + Global.var_dark_color_code + ' !important');
 			};
 			var menu = document.getElementById('navmenu');
-			menu.setAttribute('style','background-color: ' + Controller.var_light_color_code + ' !important');
+			menu.setAttribute('style','background-color: ' + Global.var_light_color_code + ' !important');
 
-			menuLabel.setAttribute('style', 'color: ' + Controller.var_dark_color_code + ' !important');
+			menuLabel.setAttribute('style', 'color: ' + Global.var_dark_color_code + ' !important');
 			break;
 		};
 };
@@ -117,7 +118,7 @@ var ComponentScreen = function(){
 	html_image_component_id = null, /*i.e.: AllComponents.btn_submit_image_html_component_id*/
 	html_text_component_id	= null,	/*i.e.: AllComponents.btn_submit_tetx_html_component_id*/
 	image_url				= null, /*i.e.: AllComponents.btn_submit_light_image*/
-	visibility				= null, /*Y/N : Controller.var_yes || Controller.var_no*/
+	visibility				= null, /*Y/N : Global.var_yes || Global.var_no*/
 	description				= null 	/*i.e.: AllComponents.btn_submit_text*/
 };
 /* =================== COMPONENTS CONSTRUCTION ENDS HERE =================== */
@@ -145,7 +146,7 @@ function componentsVisibility(_component_obj){
 	var visibility_str = "";
 	var INVISIBLE = "visibility: hidden !important;"
 
-	if(_component_obj.visibility === Controller.var_no)
+	if(_component_obj.visibility === Global.var_no)
 	{
 		visibility_str = INVISIBLE;
 	};
@@ -171,7 +172,7 @@ var WizardComponent = {
 
 	html_label_component_id : "btnCenterLabel",
 	html_steps_component_id : "btnCenterSteps",
-	component_color_code	: Controller.getColorCodeTheme(), //Controller.var_dark_color_code || Controller.var_light_color_code
+	component_color_code	: Global.getColorCodeTheme(), //Global.var_dark_color_code || Global.var_light_color_code
 	wizard_label			: undefined,
 	maximum_steps_number 	: 0,
 	inicial_step			: 0,
@@ -193,7 +194,7 @@ Object.seal(WizardComponent);//tt(Object.isFrozen(WizardComponent));
 /*SECOND, SET startWizard() AND SEND IN ARGUMENT THE PREVIOUSLY CREATED OBJECT*/
 function starWizard(){//WizardComponent Object - Only set starWizard one time !
 
-	var currentTheme = Controller.var_current_theme;
+	var currentTheme = Global.var_current_theme;
 	
 	var wizardLabel = document.getElementById(WizardComponent.html_label_component_id);
 	var wizardSteps = document.getElementById(WizardComponent.html_steps_component_id);

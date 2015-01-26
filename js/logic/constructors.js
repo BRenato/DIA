@@ -138,7 +138,7 @@ WorkGroup.prototype.addToolMaterial = function(toolMaterial){
 };
 
 // remove a tool or material to the toolsMaterial list
-WorkGroup.prototype.addToolMaterial = function(toolMaterial){
+WorkGroup.prototype.removeToolMaterial = function(toolMaterial){
 	var toolMaterialIndex = this.toolsMaterials.indexOf(toolMaterial);
 	if (toolMaterialIndex > -1) {
     	return this.toolsMaterials.splice(toolMaterialIndex, 1);
