@@ -115,11 +115,11 @@ Object.freeze(AllComponents);//tt(Object.isFrozen(AllComponents));
 
 /*THE VALUES OF COMPONENTSCREEN IS POPULATED WITH ALLCOMPONENTS PROPERTIES VALUES*/
 var ComponentScreen = function(){
-	html_image_component_id = null, /*i.e.: AllComponents.btn_submit_image_html_component_id*/
-	html_text_component_id	= null,	/*i.e.: AllComponents.btn_submit_tetx_html_component_id*/
-	image_url				= null, /*i.e.: AllComponents.btn_submit_light_image*/
-	visibility				= null, /*Y/N : Global.var_yes || Global.var_no*/
-	description				= null 	/*i.e.: AllComponents.btn_submit_text*/
+	this.html_image_component_id = null, /*i.e.: AllComponents.btn_submit_image_html_component_id*/
+	this.html_text_component_id	= null,	/*i.e.: AllComponents.btn_submit_tetx_html_component_id*/
+	this.image_url				= null, /*i.e.: AllComponents.btn_submit_light_image*/
+	this.visibility				= null, /*Y/N : Global.var_yes || Global.var_no*/
+	this.description				= null 	/*i.e.: AllComponents.btn_submit_text*/
 };
 /* =================== COMPONENTS CONSTRUCTION ENDS HERE =================== */
 

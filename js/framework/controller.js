@@ -27,3 +27,15 @@ Object.seal(Global);
 function tt(_print){
 	console.log(_print);
 }
+
+var Menu = {
+	this.title = "Menu";
+	this.deepNavs = [];
+}
+
+function deepNav(faIcon, lable, target, subDeepNavs){
+	this.faIcon = faIcon;
+	this.lable = lable;
+	this.target = target;
+	this.subDeepNavs = subDeepNavs;
+}
