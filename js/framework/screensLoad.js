@@ -1,4 +1,4 @@
-$(function(){$("#screen-target").load("screens/divTest.html")});
+
 
 
 

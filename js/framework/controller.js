@@ -21,21 +21,49 @@ var Global = {
 		}
 	}
 /* ==== ENDS HERE ! ==== */
-}
+};
+
 Object.seal(Global);
 /* ======= FOR TRACES ======= */
 function tt(_print){
 	console.log(_print);
 }
 
-var Menu = {
-	this.title = "Menu";
-	this.deepNavs = [];
-}
-
-function deepNav(faIcon, lable, target, subDeepNavs){
+/* DeepNav constructor */
+function DeepNav(faIcon, label, target, subDeepNavs){
 	this.faIcon = faIcon;
-	this.lable = lable;
+	this.label = label;
 	this.target = target;
 	this.subDeepNavs = subDeepNavs;
 }
+
+function loadScreen (screenPath){
+	$("#screen-target").load(screenPath);
+};
+
+// 
+
+/* Menu Objects*/
+var Menu = {
+	title: "Menu",
+	deepNavs: [],
+	doMenu: function() {
+		var ul = document.getElementById("navMenuUl");
+		var i, len;
+		for (i = 0, len = this.deepNavs.length; i < len; i++){
+			var li = document.createElement("li");
+			var a = document.createElement("a");
+			a.className = "menu-items improve-menu-text";
+			a.innerHTML = '<i class="' + this.deepNavs[i].faIcon + '"></i>' + this.deepNavs[i].label;
+			a.onclick = function(){loadScreen(this.deepNavs[i].target)};
+			li.appendChild(a);
+			ul.appendChild(li);
+		}
+	}
+};
+
+Menu.deepNavs = [
+	new DeepNav('fa fa-home', 'Home', 'screens/divTest.html'),
+	new DeepNav('fa fa-lightbulb-o', 'Idea', ''),
+	new DeepNav('fa fa-coffee', 'Coffee', '')
+];

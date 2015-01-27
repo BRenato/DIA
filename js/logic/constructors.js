@@ -21,7 +21,7 @@ function Issue(owner, title, description, type, category){
 	this.category = category;
 	// the creation date is automatically assigned on the creation of the object
 	this.creationDate = Date.now();
-	// the status of the issue, when creating one it is 'I' (Initial)
+	// the status of the issue. when creating one it is 'I' (Initial)
 	this.status = 'I';
 	// the number of likes
 	this.likes = 0;

@@ -6,6 +6,7 @@
   <script src="js/libs/jquery-1.11.2.js"></script> 
   <script src="js/libs/jquery-1.11.2.min.js"></script>
   <script src="js/framework/controller.js"></script> 
+
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/improveCity.css">
@@ -23,9 +24,9 @@
 <body style="">
     <div class="navmenu navmenu-default navmenu-fixed-left" id="navmenu">
       <p class="navmenu-brand improve-menu-title-text" href="#" id="menuLabel">MENU</p>
-      <ul class="nav navmenu-nav">
+      <ul class="nav navmenu-nav" id="navMenuUl">
 
-        <li><a class = "menu-items improve-menu-text" href="#">
+<!--         <li><a class = "menu-items improve-menu-text" href="#">
           <i class="fa fa-camera-retro"></i> fa-camera-retro
         </a></li>
 
@@ -35,7 +36,7 @@
         
         <li><a class = "menu-items improve-menu-text" href="#">
           _screen[3]
-        </a></li>
+        </a></li> -->
       </ul>
     </div>
 
@@ -85,7 +86,6 @@
       </div>
     </div>
     
-    <!--<script src="js/framework/screensLoad.js"></script>-->
     
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -99,6 +99,7 @@
   <!-- ==== IMPROVECITY FRAMEWORK ENDS HERE! ==== -->
   
   <script type="text/javascript">
+  Menu.doMenu();
       //setThemeColor(Controller.current_theme);
       
       /* ==== WIZARD EXAMPLE ! ==== */
@@ -119,8 +120,6 @@
     btn.image_url = AllComponents.btn_submit_light_image;
 tt(btn);
 tt(Object.isSealed(ComponentScreen));
-
-
 
       /* ==== ENDS HERE ! ==== */
   </script>
