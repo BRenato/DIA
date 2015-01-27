@@ -72,16 +72,14 @@
 
       <div id="bottom" class="buttons">
         <div id="btn_left" class="screen-canvas">
-          <img id="imageButtonBack"></img>
-          <a href="" class="improve-text" id="btnLeft"></a>
+          <i id="btnBack-img"></i><p id="btnBack-txt"></p>
         </div>
         <div id="btn_center" class="screen-canvas">
           <p id="btnCenterLabel"></p>
           <p id="btnCenterSteps"></p>
         </div>
         <div id="btn_right" class="screen-canvas">
-          <a href="#" id="btnSubmit"></a>
-          <img id="imageButtonSubmit"></img>
+          <p id="btnSubmit-txt"></p><i id="btnSubmit-img"></i>
         </div>
       </div>
     </div>
@@ -112,14 +110,17 @@
       //to define new next step = WizardComponent.nextStepNumber();
 
 
-    var btn = new ComponentScreen();
-    btn.visibility = Global.var_yes;
-    btn.description = "Teste";
-    btn.html_text_component_id = AllComponents.btn_submit_text_html_component_id;
-    btn.html_image_component_id = AllComponents.btn_submit_image_html_component_id;
-    btn.image_url = AllComponents.btn_submit_light_image;
-tt(btn);
-tt(Object.isSealed(ComponentScreen));
+    var btnA = new BottomComponentScreen.ButtonSubmit();
+    btnA.image = Components.ButtonSubmit.image_chevron_right;
+    btnA.description = Components.ButtonSubmit.text_done; 
+tt(btnA);
+
+    var btnB = new BottomComponentScreen.ButtonBack();
+    btnB.image = Components.ButtonBack.image_chevron_left;
+    btnB.description = Components.ButtonBack.text_prev; 
+tt(btnB);
+
+setComponentsVisibility(btnA,btnB);
 
       /* ==== ENDS HERE ! ==== */
   </script>

@@ -28,6 +28,12 @@
 #btn_center p{
     display: inline;
 }
+#btn_left p{
+    display: inline;
+}
+#btn_right p{
+    display: inline;
+}
 
 .title{
     padding-top: 10px;

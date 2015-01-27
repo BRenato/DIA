@@ -4,49 +4,82 @@
 
 
 
-/* =========== ENDS HERE ============= */
+/* ============ ENDS HERE ! ============ */
 
-/*DEFAULT THEME = DARK*/
-/********************************
-* POSSIBLE THEMES (24/01/2015): *
-*	-dark                       *
-*	-light                      * 
-********************************/
-
+/*SET DEFAULT THEME = DARK*/
 Global.var_current_theme = Global.var_theme_dark;
-tt('LOG - Theme: ' + Global.var_current_theme);
+
 setThemeColor(Global.var_current_theme);
 tt('getColorCodeTheme: ' + Global.getColorCodeTheme());
+
+
+
+
+/*THE VALUES OF COMPONENTSCREEN IS POPULATED WITH ALLCOMPONENTS PROPERTIES VALUES*/
+var BottomComponentScreen = {
+	
+	ButtonSubmit : function() {
+		this.image 					= null;
+		this.description			= null; 	/*i.e.: Components.btn_submit_text*/	
+	},
+	
+	ButtonBack : function() {
+		this.image 					= null;
+		this.description			= null;		/*i.e.: Components.btn_submit_text*/	
+	}
+};
+Object.seal(BottomComponentScreen);
+/* =================== COMPONENTS CONSTRUCTION ENDS HERE =================== */
+
 
 /* =================== THIS IS FOR MENU SCREEN THEME CONTROL =================== */
 function setThemeColor(_colorTheme){
 
-	var btnSubmit = document.getElementById('imageButtonSubmit');
-	var btnBack = document.getElementById('imageButtonBack');
-		btnSubmit.setAttribute('style', 'display: none');
-		btnBack.setAttribute('style', 'display: none');
-
+/*THIS FUNCTION IS STATIC TO THIS PRESENT COLORS. IN THE FUTURE MAKE DYNAMISM IN THIS STEP*/
 	var iconBar = document.getElementById('icon-bar');
 	var backColor = document.getElementById('background');
+	
+	SetBottomComponentsColor();
 
 	switch (_colorTheme) {
 		case Global.var_theme_dark:
 			backColor.setAttribute('style', 'background-color: ' + Global.var_dark_color_code +' !important');
 			iconBar.setAttribute('style','background-color: ' + Global.var_light_color_code);
-				
 			setMenuAndLabelsColor(_colorTheme);/*menu and their own labels*/
 			setIconBarsColors(Global.var_light_color_code);/*button horizontal bars*/
 		break;
 		case Global.var_theme_light:
 			backColor.setAttribute('style', 'background-color: ' + Global.var_light_color_code + ' !important');
 			iconBar.setAttribute('style','background-color: ' + Global.var_dark_color_code);
-
 			setMenuAndLabelsColor(_colorTheme);/*menu and their own labels*/
 			setIconBarsColors(Global.var_dark_color_code);/*button horizontal bars*/	
 		break;
 	}
 		
-}
+};
+
+function SetBottomComponentsColor(){
+
+	//wizard
+	var theme = Global.getColorCodeTheme();
+
+	var wizardLabel = document.getElementById(WizardComponent.html_label_component_id);
+	var wizardSteps = document.getElementById(WizardComponent.html_steps_component_id);
+	wizardLabel.setAttribute('style', 'color: ' + theme + '!important');
+	wizardSteps.setAttribute('style', 'color: ' + theme + '!important');
+
+	//btn back
+	var component_txt = document.getElementById(Components.ButtonBack.html_txt_component);
+	var component_img = document.getElementById(Components.ButtonBack.html_img_component);	
+	component_txt.setAttribute('style', 'color: ' + theme + '!important');
+	component_img.setAttribute('style', 'color: ' + theme + '!important');
+
+	//btn submit
+	component_txt = document.getElementById(Components.ButtonSubmit.html_txt_component);
+	component_img = document.getElementById(Components.ButtonSubmit.html_img_component);	
+	component_txt.setAttribute('style', 'color: ' + theme + '!important');
+	component_img.setAttribute('style', 'color: ' + theme + '!important');
+};
 
 function setMenuAndLabelsColor(_colorTheme){
 	var menuItems_arr = document.getElementsByClassName('menu-items');
@@ -86,43 +119,6 @@ function setIconBarsColors(_colorTheme){
 /* ============================= ENDS HERE ============================= */
 
 
-
-
-
-
-/* =================== COMPONENTS CONSTRUCTION =================== */
-//The wizard components as an individual declaration, don't use this method. Use Wizard Components to set a new Wizard inicialization
-var AllComponents = { 
-
-	//BUTTON SUBMIT
-	btn_submit_image_html_component_id	: "imageButtonSubmit",
-	btn_submit_tetx_html_component_id	: "btnSubmit",
-	btn_submit_light_image				: "./img/btn_submit_light.png",
-	btn_submit_dark_image				: "./img/btn_submit_dark.png",
-	btn_submit_text_submit				: "Submit",
-	btn_submit_text2_done				: "Done",
-
-	//BUTTON BACK
-	btn_back_image_html_component_id	: "imageButtonBack",
-	btn_back_tetx_html_component_id		: "btnLeft",
-	btn_back_light_image				: "./img/btn_back_light.png",
-	btn_back_dark_image					: "./img/btn_back_dark.png",
-	btn_back_text						: "Previous",
-
-};
-Object.freeze(AllComponents);//tt(Object.isFrozen(AllComponents));
-
-
-/*THE VALUES OF COMPONENTSCREEN IS POPULATED WITH ALLCOMPONENTS PROPERTIES VALUES*/
-var ComponentScreen = function(){
-	this.html_image_component_id = null, /*i.e.: AllComponents.btn_submit_image_html_component_id*/
-	this.html_text_component_id	= null,	/*i.e.: AllComponents.btn_submit_tetx_html_component_id*/
-	this.image_url				= null, /*i.e.: AllComponents.btn_submit_light_image*/
-	this.visibility				= null, /*Y/N : Global.var_yes || Global.var_no*/
-	this.description				= null 	/*i.e.: AllComponents.btn_submit_text*/
-};
-/* =================== COMPONENTS CONSTRUCTION ENDS HERE =================== */
-
 /* =================== COMPONENTS VISIBILITY =================== */
 
 /**
@@ -134,7 +130,7 @@ function setComponentsVisibility(){
 	var component_obj;
 
 	for (var i = 0; i < argLength_nrb; i++){
-		component_obj = arguments[i]; /*arguments is a ComponentScreen object*/
+		component_obj = arguments[i]; /*arguments is a BottomComponentScreen object*/
 		componentsVisibility(component_obj);
 	}
 };
@@ -142,67 +138,23 @@ function setComponentsVisibility(){
 /* == SET THE COMPONENTSCREEN OBJECT VISIBLE/INVISIBLE CONFORMING THEIR PROPERTIES SETTED IN COMPONENTS CONTRUCTION == */
 function componentsVisibility(_component_obj){
 		
-	//visibility: hidden;
-	var visibility_str = "";
-	var INVISIBLE = "visibility: hidden !important;"
+	var component_img, component_txt; 
 
-	if(_component_obj.visibility === Global.var_no)
-	{
-		visibility_str = INVISIBLE;
+	if(_component_obj instanceof BottomComponentScreen.ButtonSubmit){
+		
+		component_txt = document.getElementById(Components.ButtonSubmit.html_txt_component);
+		document.getElementById(Components.ButtonSubmit.html_img_component).className += _component_obj.image;	
+		component_txt.innerHTML = _component_obj.description;
+
+	}else if (_component_obj instanceof BottomComponentScreen.ButtonBack){
+		
+		component_txt = document.getElementById(Components.ButtonBack.html_txt_component);
+		document.getElementById(Components.ButtonBack.html_img_component).className += _component_obj.image;	
+		component_txt.innerHTML = _component_obj.description;
 	};
-
-	var htmlComponentImageId = document.getElementById(_component_obj.html_image_component_id);
-	var htmlComponentTextId = document.getElementById(_component_obj.html_text_component_id);
-
-	htmlComponentImageId.setAttribute('style', 'content : url("' + _component_obj.image_url + '") !important; ' + visibility_str);
-
-	/*THIS LOOKS LIKE NOT MAKE SENSE BUT THE PROGRAMMER CAN DEFINE TEXT TO A COMPONENTE AND SET IT A INVISIBLE (AT THE SAME TIME) BY ANY REASON*/
-	htmlComponentTextId.setAttribute('style', visibility_str);/*THE STYLE PROPERTIE VISIBILITY SET*/
-	htmlComponentTextId.innerHTML = _component_obj.description;
 };
-/*function componentsWithoutImageVisibility(_componente_obj){}*/
 
 
 
 
-/* ===============================  WIZARD COMPONENT ================================= */
 
-/*TO START A WIZARD, FIRST CREATE AN OBJECT WizardComponent WITH ALL PROPERTIES*/
-var WizardComponent = {
-
-	html_label_component_id : "btnCenterLabel",
-	html_steps_component_id : "btnCenterSteps",
-	component_color_code	: Global.getColorCodeTheme(), //Global.var_dark_color_code || Global.var_light_color_code
-	wizard_label			: undefined,
-	maximum_steps_number 	: 0,
-	inicial_step			: 0,
-	current_step_number		: 0,
-	nextStepNumber 			: function(){
-tt(":: NextWizardStep ::");
-		if (WizardComponent.current_step_number != WizardComponent.maximum_steps_number){
-			WizardComponent.current_step_number += 1;
-tt(":: CurrentStepNumber = " + WizardComponent.current_step_number + " ::");
-			starWizard();
-		}else{
-tt(":: No more steps possible to define ! ::");
-			return null;
-		};
-	}
-};
-Object.seal(WizardComponent);//tt(Object.isFrozen(WizardComponent));
-
-/*SECOND, SET startWizard() AND SEND IN ARGUMENT THE PREVIOUSLY CREATED OBJECT*/
-function starWizard(){//WizardComponent Object - Only set starWizard one time !
-
-	var currentTheme = Global.var_current_theme;
-	
-	var wizardLabel = document.getElementById(WizardComponent.html_label_component_id);
-	var wizardSteps = document.getElementById(WizardComponent.html_steps_component_id);
-
-	wizardLabel.setAttribute('style', 'color: ' + WizardComponent.component_color_code + '!important');
-	wizardSteps.setAttribute('style', 'color: ' + WizardComponent.component_color_code+ '!important');
-
-	wizardLabel.innerHTML = WizardComponent.wizard_label;
-	wizardSteps.innerHTML = ' (' + WizardComponent.current_step_number + '/' + WizardComponent.maximum_steps_number + ') ';
-};
-/* ========================== WIZARD COMPONENT ENDS HERE ============================= */
