@@ -23,10 +23,6 @@ tt(':: THEME :: - ' + theme)
 	}
 /* ==== ENDS HERE ! ==== */
 };
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 Object.seal(Global);
 
 /*DEFAULT THEME = DARK*/
@@ -71,24 +67,13 @@ function tt(_print){
 	console.log(_print);
 };
 
-<<<<<<< HEAD
-/* DeepNav constructor */
-function DeepNav(faIcon, label, target, subDeepNavs){
-=======
-var Menu = {
-	title		: "Menu",
-	deepNavs 	: []
-};
-
 function deepNav(faIcon, lable, target, subDeepNavs){
->>>>>>> origin/master
 	this.faIcon = faIcon;
 	this.label = label;
 	this.target = target;
 	this.subDeepNavs = subDeepNavs;
 }
 
-<<<<<<< HEAD
 function loadScreen (screenPath){
 	$("#screen-target").load(screenPath);
 };
@@ -119,7 +104,6 @@ Menu.deepNavs = [
 	new DeepNav('fa fa-lightbulb-o', 'Idea', ''),
 	new DeepNav('fa fa-coffee', 'Coffee', '')
 ];
-=======
 /* ===============================  WIZARD COMPONENT ================================= */
 
 /*TO START A WIZARD, FIRST CREATE AN OBJECT WizardComponent WITH ALL PROPERTIES*/
@@ -156,4 +140,3 @@ function starWizard(){//WizardComponent Object - Only set starWizard one time !
 	wizardSteps.innerHTML = ' (' + WizardComponent.current_step_number + '/' + WizardComponent.maximum_steps_number + ') ';
 };
 /* ========================== WIZARD COMPONENT ENDS HERE ============================= */
->>>>>>> origin/master
