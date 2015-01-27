@@ -25,6 +25,12 @@
     padding: 0 10px;
     height: 100%;
 }
+
+object{
+    width: 100%;
+    height: 100%;
+}
+
 #btn_center p{
     display: inline;
 }
@@ -91,6 +97,18 @@ height: 7%;
     position: relative;
     margin-left: 10px;
 }
+
+/* menu toggle button - border */
+.navbar-default .navbar-toggle {
+    border-color: #33B5E5;
+}
+
+/* menu toggle button - on mouse over or focus */
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: #33B5E5;
+}
+
 #btn_center_top{
     float: left;
     height: 100%;

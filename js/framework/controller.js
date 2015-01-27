@@ -1,3 +1,6 @@
+if(navigator.userAgent.match(/Android/i)){
+    window.scrollTo(0,1);
+}
 /* =================== CONTROLER COMPONENT =================== */
 var Global = {
 
@@ -67,20 +70,20 @@ function tt(_print){
 	console.log(_print);
 };
 
-function deepNav(faIcon, lable, target, subDeepNavs){
+function DeepNav(faIcon, label, target, subDeepNavs){
 	this.faIcon = faIcon;
 	this.label = label;
 	this.target = target;
 	this.subDeepNavs = subDeepNavs;
 }
 
-function loadScreen (screenPath){
-	$("#screen-target").load(screenPath);
+function loadScreen(screenPath){
+	document.getElementById('screen-target').innerHTML='<object type="text/html" data="' + screenPath + '" ></object>';
 };
 
 // 
 
-/* Menu Objects*/
+/* Menu Object */
 var Menu = {
 	title: "Menu",
 	deepNavs: [],
@@ -88,11 +91,13 @@ var Menu = {
 		var ul = document.getElementById("navMenuUl");
 		var i, len;
 		for (i = 0, len = this.deepNavs.length; i < len; i++){
+			var screenToLoad = this.deepNavs[i].target;
+			tt(screenToLoad);
 			var li = document.createElement("li");
 			var a = document.createElement("a");
 			a.className = "menu-items improve-menu-text";
-			a.innerHTML = '<i class="' + this.deepNavs[i].faIcon + '"></i>' + this.deepNavs[i].label;
-			a.onclick = function(){loadScreen(this.deepNavs[i].target)};
+			a.innerHTML = '<i class="' + this.deepNavs[i].faIcon + '"></i> ' + this.deepNavs[i].label;
+			a.onclick = function(){loadScreen(screenToLoad)};
 			li.appendChild(a);
 			ul.appendChild(li);
 		}
@@ -101,8 +106,8 @@ var Menu = {
 
 Menu.deepNavs = [
 	new DeepNav('fa fa-home', 'Home', 'screens/divTest.html'),
-	new DeepNav('fa fa-lightbulb-o', 'Idea', ''),
-	new DeepNav('fa fa-coffee', 'Coffee', '')
+	new DeepNav('fa fa-lightbulb-o', 'Idea', 'screens/divTest.html'),
+	new DeepNav('fa fa-coffee', 'Coffee', 'screens/divTest.html')
 ];
 /* ===============================  WIZARD COMPONENT ================================= */
 
