@@ -113,7 +113,6 @@ var WizardComponent = {
 
 	html_label_component_id : "btnCenterLabel",
 	html_steps_component_id : "btnCenterSteps",
-	component_color_code	: Global.getColorCodeTheme(), //Global.var_dark_color_code || Global.var_light_color_code
 	wizard_label			: undefined,
 	maximum_steps_number 	: 0,
 	inicial_step			: 0,
@@ -128,17 +127,18 @@ tt(":: CurrentStepNumber = " + WizardComponent.current_step_number + " ::");
 tt(":: No more steps possible to define ! ::");
 			return null;
 		};
+	},
+	/*SECOND, SET startWizard() AND SEND IN ARGUMENT THE PREVIOUSLY CREATED OBJECT*/
+	startWizard : function (){//WizardComponent Object - Only set starWizard one time !
+	
+		var wizardLabel = document.getElementById(this.html_label_component_id);
+		var wizardSteps = document.getElementById(this.html_steps_component_id);
+
+		wizardLabel.innerHTML = this.wizard_label;
+		wizardSteps.innerHTML = ' (' + this.current_step_number + '/' + this.maximum_steps_number + ') ';
 	}
 };
 Object.seal(WizardComponent);//tt(Object.isFrozen(WizardComponent));
 
-/*SECOND, SET startWizard() AND SEND IN ARGUMENT THE PREVIOUSLY CREATED OBJECT*/
-function starWizard(){//WizardComponent Object - Only set starWizard one time !
-	
-	var wizardLabel = document.getElementById(WizardComponent.html_label_component_id);
-	var wizardSteps = document.getElementById(WizardComponent.html_steps_component_id);
 
-	wizardLabel.innerHTML = WizardComponent.wizard_label;
-	wizardSteps.innerHTML = ' (' + WizardComponent.current_step_number + '/' + WizardComponent.maximum_steps_number + ') ';
-};
 /* ========================== WIZARD COMPONENT ENDS HERE ============================= */
