@@ -7,7 +7,7 @@
 /* ============ ENDS HERE ! ============ */
 
 /*SET DEFAULT THEME = DARK*/
-Global.var_current_theme = Global.var_theme_dark;
+Global.var_current_theme = Global.var_theme_light;
 
 setThemeColor(Global.var_current_theme);
 tt('getColorCodeTheme: ' + Global.getColorCodeTheme());
@@ -140,18 +140,16 @@ function componentsVisibility(_component_obj){
 	if(_component_obj instanceof BottomComponentScreen.ButtonSubmit){
 		
 		component_txt = document.getElementById(Components.ButtonSubmit.html_txt_component);
-		document.getElementById(Components.ButtonSubmit.html_img_component).className += _component_obj.image;	
+		component_img = document.getElementById(Components.ButtonSubmit.html_img_component);
+		component_img.className += _component_obj.image;
 		component_txt.innerHTML = _component_obj.description;
 
 	}else if (_component_obj instanceof BottomComponentScreen.ButtonBack){
 		
 		component_txt = document.getElementById(Components.ButtonBack.html_txt_component);
-		document.getElementById(Components.ButtonBack.html_img_component).className += _component_obj.image;	
+		component_img = document.getElementById(Components.ButtonBack.html_img_component);
+		component_img.className += _component_obj.image;		
 		component_txt.innerHTML = _component_obj.description;
 	};
 };
-
-
-
-
 

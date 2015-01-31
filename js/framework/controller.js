@@ -40,6 +40,7 @@ var Components = {
 
 	ButtonSubmit : {
 		//BUTTON SUBMIT PROPERTIES
+		id 						: "buttonSubmit", 
 		html_img_component 		: "btnSubmit-img",
 		html_txt_component 		: "btnSubmit-txt",
 		image_chevron_right		: "fa fa-chevron-right",/*possibilidade de adicionar outras imagens com propriedade da imagem com outro nome*/
@@ -49,6 +50,7 @@ var Components = {
 	
 	ButtonBack : {
 		//BUTTON BACK PROPERTIES
+		id 					: "buttonBack",
 		html_img_component 	: "btnBack-img",
 		html_txt_component 	: "btnBack-txt",
 		image_chevron_left	: "fa fa-chevron-left",/*possibilidade de adicionar outras imagens com propriedade da imagem com outro nome*/
@@ -139,12 +141,70 @@ tt(":: No more steps possible to define ! ::");
 	/*SECOND, SET startWizard() AND SEND IN ARGUMENT THE PREVIOUSLY CREATED OBJECT*/
 	startWizard : function (){//WizardComponent Object - Only set starWizard one time !
 	
+		this.setWizardText();
+		this.seeIfIsLastScreen(true);//true because is startWizard and we can not decrease current step number
+		this.setWizardEvents();
+	},
+
+	setWizardText : function(){
 		var wizardLabel = document.getElementById(this.html_label_component_id);
 		var wizardSteps = document.getElementById(this.html_steps_component_id);
 
 		wizardLabel.innerHTML = this.wizard_label;
 		wizardSteps.innerHTML = ' (' + this.current_step_number + '/' + this.maximum_steps_number + ') ';
+	},
+
+	seeIfIsLastScreen : function(_varControlStartWizard){
+			
+			if(_varControlStartWizard){
+				if(WizardComponent.current_step_number === WizardComponent.inicial_step){
+					WizardComponent.setWizardComponentsInvisibility(Components.ButtonBack.id);
+				}
+			}else{
+				WizardComponent.current_step_number -= 1;
+				WizardComponent.setWizardText();
+				
+				if(WizardComponent.current_step_number === WizardComponent.inicial_step){
+					WizardComponent.setWizardComponentsInvisibility(Components.ButtonBack.id);
+				}
+			}
+tt("CURRENT STEP NUMBER: " + WizardComponent.current_step_number);
+tt("INICIAL STEP NUMBER: " + WizardComponent.inicial_step);
+		},
+
+	setWizardEvents : function(){
+		//http://www.w3schools.com/jsref/dom_obj_event.asp
+
+		var btn_back = document.getElementById(Components.ButtonBack.html_img_component)
+		
+		btn_back.onclick = function(){
+			WizardComponent.seeIfIsLastScreen(false);
+		};
+
+	},
+	setWizardComponentsInvisibility : function() {
+tt("setWizardComponentsInvisibility");
+		var argLength_nrb = arguments.length;
+		var component_obj;
+
+		for (var i = 0; i < argLength_nrb; i++){
+			component_obj = arguments[i];
+			WizardComponent.wizardComponentsVisibility(component_obj);
+		}
+	},
+
+	wizardComponentsVisibility : function (_component_name)
+	{
+		if (_component_name === Components.ButtonBack.id){
+			
+			component_txt = document.getElementById(Components.ButtonBack.html_txt_component);
+			component_img = document.getElementById(Components.ButtonBack.html_img_component);
+
+			component_img.setAttribute('style','visibility : hidden !important');	
+			component_txt.setAttribute('style','visibility : hidden !important');
+		};
 	}
+
 };
 Object.seal(WizardComponent);//tt(Object.isFrozen(WizardComponent));
 
@@ -154,24 +214,20 @@ Object.seal(WizardComponent);//tt(Object.isFrozen(WizardComponent));
 //http://nakupanda.github.io/bootstrap3-dialog/#examples
 
 var AlertsImprove = {
-	
+
 	SetAlertsHeaderColor : function(){
 		var theme = Global.var_current_theme;
-		tt("THEME IN ALERTS DIALOG - " + theme);
-
-		$(document).ready(function(){//document.ready to wait message show!
-			var modal_header = document.getElementsByClassName(Components.Alerts.html_header_component);
-			tt(modal_header[0])
-        	switch (theme) {
-				case Global.var_theme_dark:
-					$( Components.Alerts.html_header_component ).css( "width")
-					modal_header[0].setAttribute('style','color: ' + Global.var_blue_to_dark);
-				break;
-				case Global.var_theme_light:
-					modal_header[0].setAttribute('style','background-color:' + Global.var_blue_to_light);
-				break;
-			}
-        });				
+tt("THEME IN ALERTS DIALOG - " + theme);
+		var modal_header = document.getElementsByClassName(Components.Alerts.html_header_component);
+tt("HEADER MSG VALUE: " + modal_header[0])
+        switch (theme) {
+			case Global.var_theme_dark:
+				modal_header[0].setAttribute('style','background-color: ' + Global.var_blue_to_dark);
+			break;
+			case Global.var_theme_light:
+				modal_header[0].setAttribute('style','background-color:' + Global.var_blue_to_light);
+			break;
+		}    
 	},
 
 	SimpleAlert : function(){
@@ -180,6 +236,7 @@ var AlertsImprove = {
 		this.icon			= undefined;
 		this.Show 			= function(){
 			BootstrapDialog.show({
+				closable: false,
           		title	: this.top_label_text,
            		message : this.alert_message 
         	});
@@ -187,13 +244,15 @@ var AlertsImprove = {
 		}	
 	},
 
-	AlertWithConfirmation : function(){
+	AlertWithOneButton : function(){
 		this.top_label_text = undefined;
 		this.alert_message	= undefined;
 		this.button_label 	= undefined;
+		this.icon 			= undefined;
 		this.Show = function()
 		{
 			BootstrapDialog.show({
+				closable	: false,
 				title		: this.top_label_text,
             	message 	: this.alert_message,
             	buttons : [{
@@ -203,10 +262,43 @@ var AlertsImprove = {
                          				dialogItself.close();
                 					}
             			  }],
-        	});
-        	AlertsImprove.SetAlertsHeaderColor()
+        	}); 
+        	AlertsImprove.SetAlertsHeaderColor();
 		};
+	},
+
+	AlertWithTwoButtons : function(){
+		this.top_label_text 		= undefined;
+		this.alert_message			= undefined;
+		this.button_cancel_label 	= undefined;
+		this.button_confirm_label 	= undefined;
+		this.button_confirm_icon	= undefined;
+		this.button_cancel_icon		= undefined;
+		//this.confirm_action			= function(){return undefined};
+		this.Show = function()
+		{
+			BootstrapDialog.show({
+			closable	: false,
+			title		: this.top_label_text,
+            message 	: this.alert_message,
+            buttons : [{
+            			icon  : this.button_cancel_icon,	//http://getbootstrap.com/components//
+            		 	label : this.button_cancel_label,
+               		 	action: function(dialogItself){
+                       				dialogItself.close();
+               					}
+            		  },{
+            		  	autospin:true,
+            		  	icon  : this.button_confirm_icon,	//http://getbootstrap.com/components//
+            		 	label : this.button_confirm_label,
+               		 	action: this.confirm_action
+            		  }],
+        	});
+        	AlertsImprove.SetAlertsHeaderColor(); 
+		};
+		
 	}
+
 };
 
 /* ============= ALERTS ENDS HERE ! ============= */

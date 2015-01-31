@@ -81,14 +81,14 @@
 
       <div id="bottom" class="buttons">
         <div id="btn_left" class="screen-canvas">
-          <i id="btnBack-img"></i><p id="btnBack-txt"></p>
+          <a><i id="btnBack-img"></i></a><p id="btnBack-txt"></p>
         </div>
         <div id="btn_center" class="screen-canvas">
           <p id="btnCenterLabel"></p>
           <p id="btnCenterSteps"></p>
         </div>
         <div id="btn_right" class="screen-canvas">
-          <p id="btnSubmit-txt"></p><i id="btnSubmit-img"></i>
+          <p id="btnSubmit-txt"></p><a><i id="btnSubmit-img"></i></a>
         </div>
       </div>
     </div>
@@ -119,8 +119,9 @@
       
       /* ==== WIZARD EXAMPLE ! ==== */
       WizardComponent.wizard_label = "Teste";
+      WizardComponent.inicial_step = 1;
       WizardComponent.maximum_steps_number = 5;
-      WizardComponent.current_step_number = 1;
+      WizardComponent.current_step_number = 3;//WizardComponent.inicial_step;
       
       tt(WizardComponent);
       WizardComponent.startWizard();
@@ -144,14 +145,23 @@ var alert1 = new AlertsImprove.SimpleAlert();
 //alert1.Show();
 
 
-var alert2 = new AlertsImprove.AlertWithConfirmation();
+var alert2 = new AlertsImprove.AlertWithOneButton();
 alert2.alert_message = "HELLO WORLD !";
 alert2.button_label= "Fechar";
 alert2.icon = "fa fa-times"; //fa icons or glyphicon bootstrap xD
 alert2.top_label_text = "TOP LABEL";
-alert2.Show();
+//alert2.Show();
 
-      /* ==== ENDS HERE ! ==== */
+    var alert3 = new AlertsImprove.AlertWithTwoButtons();
+    alert3.top_label_text = "TWO BUTTONS IN WIZARD";
+    alert3.alert_message = "ALERT !";
+    alert3.button_cancel_icon = "fa fa-times";
+    alert3.button_confirm_icon = "fa fa-check";
+    alert3.button_cancel_label = "Cancelar";
+    alert3.button_confirm_label = "Confirmar";
+    //alert3.Show();
+
+/* ==== ENDS HERE ! ==== */
 </script>
 
 </body>
