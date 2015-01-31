@@ -74,11 +74,13 @@ function tt(_print){
 	console.log(_print);
 };
 
-function DeepNav(faIcon, label, target, subDeepNavs){
+function DeepNav(id, faIcon, label, target, subDeepNavs){
+	this.id = id;
 	this.faIcon = faIcon;
 	this.label = label;
 	this.target = target;
 	this.subDeepNavs = subDeepNavs;
+	this.loadScreen = function(){ loadScreen(target)};
 }
 
 function loadScreen(screenPath){
@@ -93,26 +95,24 @@ var Menu = {
 	title: "Menu",
 	deepNavs: [],
 	doMenu: function() {
-		var ul = document.getElementById("navMenuUl");
+		var ul_elem = document.getElementById("navMenuUl");
 		var i, len;
 		for (i = 0, len = this.deepNavs.length; i < len; i++){
-			var screenToLoad = this.deepNavs[i].target;
-			tt(screenToLoad);
-			var li = document.createElement("li");
-			var a = document.createElement("a");
-			a.className = "menu-items improve-menu-text";
-			a.innerHTML = '<i class="' + this.deepNavs[i].faIcon + '"></i> ' + this.deepNavs[i].label;
-			a.onclick = function(){loadScreen(screenToLoad)};
-			li.appendChild(a);
-			ul.appendChild(li);
+			var li_elem = document.createElement("li");
+			var a_elem = document.createElement("a");
+			a_elem.className = "menu-items improve-menu-text";
+			a_elem.innerHTML = '<i class="' + this.deepNavs[i].faIcon + '"></i> ' + this.deepNavs[i].label;
+			a_elem.id = this.deepNavs[i].id;
+			li_elem.appendChild(a_elem);
+			ul_elem.appendChild(li_elem);
 		}
 	}
 };
 
 Menu.deepNavs = [
-	new DeepNav('fa fa-home', 'Home', 'screens/divTest.html'),
-	new DeepNav('fa fa-lightbulb-o', 'Idea', 'screens/divTest.html'),
-	new DeepNav('fa fa-coffee', 'Coffee', 'screens/divTest.html')
+	new DeepNav('menuBtnHome', 'fa fa-home', 'Home', 'screens/divTest.html'),
+	new DeepNav('menuBtnIdea', 'fa fa-lightbulb-o', 'Idea', 'screens/cenas.html'),
+	new DeepNav('menuBtnCoffee', 'fa fa-coffee', 'Coffee', 'screens/cenas.html')
 ];
 /* ===============================  WIZARD COMPONENT ================================= */
 
