@@ -8,8 +8,6 @@
 
   <script src="js/libs/screenfull.min.js"></script>
 
-  <!-- framework controllers -->
-  <script src="js/framework/controller.js"></script> 
   <!-- business logic -->
   <script type="text/javascript" src="js/logic/constructors.js"></script>
 
@@ -25,9 +23,12 @@
   <link rel="stylesheet" href="fonts/font-awesome-4.3.0/css/font-awesome.min.css">
 	<style type="text/css"></style>
 
+  <!-- framework controllers -->
+  <script src="js/framework/controller.js"></script> 
+
 </head>
 
-<body style="">
+<body style="" id="body">
     <div class="navmenu navmenu-default navmenu-fixed-left" id="navmenu">
       <p class="navmenu-brand improve-menu-title-text" href="#" id="menuLabel">MENU</p>
       <ul class="nav navmenu-nav" id="navMenuUl">
@@ -66,7 +67,9 @@
           
           <!-- ============= SCREENS TARGET ! ============= -->
           <div class="screen-canvas screen-canvas-borders" id ="screen-target">
+
                   <!-- === ALLWAYS AN EMPTY BLOCK ===-->
+
           </div>
           <!-- ================ ENDS HERE ! =============== -->
 
@@ -98,6 +101,10 @@
     <script src="js/libs/bootstrap.min.js"></script>
     <script src="js/libs/jasny-bootstrap.min.js"></script>
 
+     <!-- For Alerts -->
+    <script type="text/javascript" src="js/libs/bootstrap-dialog.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-dialog.min.css">
+
   <!-- ========== IMPROVECITY FRAMEWORK ========= -->
   <script type="text/javascript" src="js/framework/frameworkImprove.js"></script>
   <!-- ==== IMPROVECITY FRAMEWORK ENDS HERE! ==== -->
@@ -128,8 +135,20 @@ tt(btnB);
 
 setComponentsVisibility(btnA,btnB);
 
+
+var alert1 = new AlertsImprove.SimpleAlert();
+//alert1.Show();
+
+
+var alert2 = new AlertsImprove.AlertWithConfirmation();
+alert2.alert_message = "HELLO WORLD !";
+alert2.button_label= "Fechar";
+alert2.icon = "fa fa-times"; //fa icons or glyphicon bootstrap xD
+alert2.top_label_text = "TOP LABEL";
+alert2.Show();
+
       /* ==== ENDS HERE ! ==== */
-  </script>
+</script>
 
 </body>
 </html>

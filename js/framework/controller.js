@@ -4,6 +4,8 @@ var Global = {
 /* ====== GLOBAL ====== */
 	var_yes					: "Y",
 	var_no					: "N",
+	var_blue_to_light		: "#6ECAEC",
+	var_blue_to_dark		: "#2E8AAC", 
 	var_theme_dark			: "dark",
 	var_theme_light			: "light",
 	var_current_theme		: undefined, //Controller.var_theme_dark || Controller.var_theme_light
@@ -32,9 +34,6 @@ Object.seal(Global);
 *	-light                      * 
 ********************************/
 
-Global.var_current_theme = Global.var_theme_dark;
-tt('LOG - Theme: ' + Global.var_current_theme);
-
 /* =================== COMPONENTS CONSTRUCTION =================== */
 //The wizard components as an individual declaration, don't use this method. Use Wizard Components to set a new Wizard inicialization
 var Components = { 
@@ -55,12 +54,20 @@ var Components = {
 		image_chevron_left	: "fa fa-chevron-left",/*possibilidade de adicionar outras imagens com propriedade da imagem com outro nome*/
 		text_prev			: " Previous",
 		text_back			: " Back"
+	},
+
+	Alerts : {
+		//DIALOG WINDOWS
+		html_header_component			: "modal-header",
+		html_body_component				: "modal-body",
+		html_footer_component  			: "modal-footer",
+		html_message_body_component 	: "bootstrap-dialog-message",
+		html_message_header_component	: "bootstrap-dialog-header",
+		html_message_footer_component	: "bootstrap-dialog-footer",
+		html_button_component			: "btn btn-default"
 	}
 };
 Object.freeze(Components);//tt(Object.isFrozen(Components));
-
-
-
 
 /* ======= FOR TRACES ======= */
 function tt(_print){
@@ -75,10 +82,11 @@ function DeepNav(faIcon, label, target, subDeepNavs){
 }
 
 function loadScreen(screenPath){
+	//screenPath = "screens/alerts/alert.html"
 	document.getElementById('screen-target').innerHTML='<object type="text/html" data="' + screenPath + '" ></object>';
+	//$( "#screen-target" ).load( screenPath );
 };
 
-// 
 
 /* Menu Object */
 var Menu = {
@@ -140,5 +148,68 @@ tt(":: No more steps possible to define ! ::");
 };
 Object.seal(WizardComponent);//tt(Object.isFrozen(WizardComponent));
 
-
 /* ========================== WIZARD COMPONENT ENDS HERE ============================= */
+
+/* ============= ALERTS ============= */
+//http://nakupanda.github.io/bootstrap3-dialog/#examples
+
+var AlertsImprove = {
+	
+	SetAlertsHeaderColor : function(){
+		var theme = Global.var_current_theme;
+		tt("THEME IN ALERTS DIALOG - " + theme);
+
+		$(document).ready(function(){//document.ready to wait message show!
+			var modal_header = document.getElementsByClassName(Components.Alerts.html_header_component);
+			tt(modal_header[0])
+        	switch (theme) {
+				case Global.var_theme_dark:
+					$( Components.Alerts.html_header_component ).css( "width")
+					modal_header[0].setAttribute('style','color: ' + Global.var_blue_to_dark);
+				break;
+				case Global.var_theme_light:
+					modal_header[0].setAttribute('style','background-color:' + Global.var_blue_to_light);
+				break;
+			}
+        });				
+	},
+
+	SimpleAlert : function(){
+		this.top_label_text = undefined;
+		this.alert_message	= undefined;
+		this.icon			= undefined;
+		this.Show 			= function(){
+			BootstrapDialog.show({
+          		title	: this.top_label_text,
+           		message : this.alert_message 
+        	});
+        	AlertsImprove.SetAlertsHeaderColor();
+		}	
+	},
+
+	AlertWithConfirmation : function(){
+		this.top_label_text = undefined;
+		this.alert_message	= undefined;
+		this.button_label 	= undefined;
+		this.Show = function()
+		{
+			BootstrapDialog.show({
+				title		: this.top_label_text,
+            	message 	: this.alert_message,
+            	buttons : [{
+            			 	icon  : this.icon,	//http://getbootstrap.com/components//
+            			 	label : this.button_label,
+                		 	action: function(dialogItself){
+                         				dialogItself.close();
+                					}
+            			  }],
+        	});
+        	AlertsImprove.SetAlertsHeaderColor()
+		};
+	}
+};
+
+/* ============= ALERTS ENDS HERE ! ============= */
+
+
+

@@ -12,9 +12,6 @@ Global.var_current_theme = Global.var_theme_dark;
 setThemeColor(Global.var_current_theme);
 tt('getColorCodeTheme: ' + Global.getColorCodeTheme());
 
-
-
-
 /*THE VALUES OF COMPONENTSCREEN IS POPULATED WITH ALLCOMPONENTS PROPERTIES VALUES*/
 var BottomComponentScreen = {
 	
