@@ -7,7 +7,7 @@
 /* ============ ENDS HERE ! ============ */
 
 /*SET DEFAULT THEME = DARK*/
-Global.var_current_theme = Global.var_theme_light;
+Global.var_current_theme = Global.var_theme_dark;
 
 setThemeColor(Global.var_current_theme);
 tt('getColorCodeTheme: ' + Global.getColorCodeTheme());

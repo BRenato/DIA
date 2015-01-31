@@ -120,29 +120,116 @@ Menu.deepNavs = [
 
 /*TO START A WIZARD, FIRST CREATE AN OBJECT WizardComponent WITH ALL PROPERTIES*/
 var WizardComponent = {
-
+	var_control_access		: false,
 	html_label_component_id : "btnCenterLabel",
 	html_steps_component_id : "btnCenterSteps",
 	wizard_label			: undefined,
 	maximum_steps_number 	: 0,
 	inicial_step			: 0,
 	current_step_number		: 0,
+	
 	nextStepNumber 			: function(){
-tt(":: NextWizardStep ::");
-		if (WizardComponent.current_step_number != WizardComponent.maximum_steps_number){
-			WizardComponent.current_step_number += 1;
-tt(":: CurrentStepNumber = " + WizardComponent.current_step_number + " ::");
-			starWizard();
+
+		if(WizardComponent.current_step_number === WizardComponent.maximum_steps_number){
+				
+			var alert3 = new AlertsImprove.AlertWithTwoButtons();
+		    alert3.top_label_text = "TWO BUTTONS IN WIZARD";
+		    alert3.alert_message = "VAIS SUBMETER DADOS !";
+		    alert3.button_cancel_icon = "fa fa-times";
+		    alert3.button_confirm_icon = "fa fa-check";
+		    alert3.button_cancel_label = "Cancelar";
+		    alert3.button_confirm_label = "Confirmar";
+		    alert3.Show();
+			
 		}else{
+			if(WizardComponent.current_step_number === WizardComponent.inicial_step){
+				setWizardComponentsVisibility(Components.ButtonBack.id);
+			}
+tt(":: NextWizardStep ::");
+			if (WizardComponent.current_step_number != WizardComponent.maximum_steps_number){
+				WizardComponent.current_step_number += 1;
+tt(":: CurrentStepNumber = " + WizardComponent.current_step_number + " ::");
+			}else{
 tt(":: No more steps possible to define ! ::");
-			return null;
-		};
+				return null;
+			};
+			WizardComponent.setWizardText();
+		}
+
+tt("CURRENT STEP NUMBER: " + WizardComponent.current_step_number);
+tt("LAST STEP NUMBER: " + WizardComponent.maximum_steps_number);
+/* ======= MAKE BACK BUTTON VISIBLE ======== */
+		function setWizardComponentsVisibility() {
+tt("setWizardComponentsVisibility");
+			var argLength_nrb = arguments.length;
+			var component_obj;
+
+			for (var i = 0; i < argLength_nrb; i++){
+				component_obj = arguments[i];
+				wizardComponentsVisibility(component_obj);
+			}
+		}
+
+		function wizardComponentsVisibility (_component_name){
+			if (_component_name === Components.ButtonBack.id){
+				
+				var theme = Global.getColorCodeTheme();
+				component_txt = document.getElementById(Components.ButtonBack.html_txt_component);
+				component_img = document.getElementById(Components.ButtonBack.html_img_component);
+				
+				component_txt.setAttribute('style', 'color: ' + theme + '!important');
+				component_img.setAttribute('style', 'color: ' + theme + '!important');
+			}
+		}
+/* ======= MAKE BACK BUTTON VISIBLE ENDS HERE ! ======== */
 	},
+
+	beforeStepNumber : function(){
+
+tt('seeIfIsFirstScreen');
+		if (!this.var_control_access){//is first access ?
+			WizardComponent.current_step_number -= 1;
+			WizardComponent.setWizardText();
+		}else{ this.var_control_access = false;}
+
+		if(WizardComponent.current_step_number === WizardComponent.inicial_step){
+			setWizardComponentsInvisibility(Components.ButtonBack.id);
+		}
+tt("CURRENT STEP NUMBER: " + WizardComponent.current_step_number);
+tt("INICIAL STEP NUMBER: " + WizardComponent.inicial_step);
+
+
+/* ======= MAKE BACK BUTTON INVISIBLE ======== */
+		function setWizardComponentsInvisibility() {
+tt("setWizardComponentsInvisibility");
+			var argLength_nrb = arguments.length;
+			var component_obj;
+
+			for (var i = 0; i < argLength_nrb; i++){
+				component_obj = arguments[i];
+				wizardComponentsInVisibility(component_obj);
+			}
+		}
+
+		function wizardComponentsInVisibility(_component_name){
+
+			if (_component_name === Components.ButtonBack.id){
+			
+				component_txt = document.getElementById(Components.ButtonBack.html_txt_component);
+				component_img = document.getElementById(Components.ButtonBack.html_img_component);
+
+				component_img.setAttribute('style','visibility : hidden !important');	
+				component_txt.setAttribute('style','visibility : hidden !important');
+			}
+		}
+/* ======= MAKE BACK BUTTON INVISIBLE ENDS HERE ! ======== */
+	},
+
 	/*SECOND, SET startWizard() AND SEND IN ARGUMENT THE PREVIOUSLY CREATED OBJECT*/
 	startWizard : function (){//WizardComponent Object - Only set starWizard one time !
 	
 		this.setWizardText();
-		this.seeIfIsLastScreen(true);//true because is startWizard and we can not decrease current step number
+		this.validateScreen();//we can not decrease current step number at the begining
 		this.setWizardEvents();
 	},
 
@@ -153,59 +240,41 @@ tt(":: No more steps possible to define ! ::");
 		wizardLabel.innerHTML = this.wizard_label;
 		wizardSteps.innerHTML = ' (' + this.current_step_number + '/' + this.maximum_steps_number + ') ';
 	},
-
-	seeIfIsLastScreen : function(_varControlStartWizard){
-			
-			if(_varControlStartWizard){
-				if(WizardComponent.current_step_number === WizardComponent.inicial_step){
-					WizardComponent.setWizardComponentsInvisibility(Components.ButtonBack.id);
-				}
-			}else{
-				WizardComponent.current_step_number -= 1;
-				WizardComponent.setWizardText();
-				
-				if(WizardComponent.current_step_number === WizardComponent.inicial_step){
-					WizardComponent.setWizardComponentsInvisibility(Components.ButtonBack.id);
-				}
-			}
-tt("CURRENT STEP NUMBER: " + WizardComponent.current_step_number);
-tt("INICIAL STEP NUMBER: " + WizardComponent.inicial_step);
-		},
-
+	
 	setWizardEvents : function(){
 		//http://www.w3schools.com/jsref/dom_obj_event.asp
 
 		var btn_back = document.getElementById(Components.ButtonBack.html_img_component)
-		
 		btn_back.onclick = function(){
-			WizardComponent.seeIfIsLastScreen(false);
+			WizardComponent.beforeStepNumber(); //colocar isto nos ecrãs
+			//WizardComponent.seeIfIsFirstScreen();//To Remove
+		};
+
+		var btn_submit = document.getElementById(Components.ButtonSubmit.html_img_component)
+		btn_submit.onclick = function(){
+			WizardComponent.nextStepNumber(); //colocar isto nos ecrãs
+			//WizardComponent.seeIfIsLastScreen(); //To Remove
 		};
 
 	},
-	setWizardComponentsInvisibility : function() {
-tt("setWizardComponentsInvisibility");
-		var argLength_nrb = arguments.length;
-		var component_obj;
+	validateScreen : function(){
+tt('validateScreen');
+			if(this.current_step_number === this.inicial_step){
+				this.var_control_access = true;
+				this.beforeStepNumber();
+			}
+tt("CURRENT STEP NUMBER: " + this.current_step_number);
+tt("INICIAL STEP NUMBER: " + this.inicial_step);
+		},
 
-		for (var i = 0; i < argLength_nrb; i++){
-			component_obj = arguments[i];
-			WizardComponent.wizardComponentsVisibility(component_obj);
-		}
-	},
-
-	wizardComponentsVisibility : function (_component_name)
-	{
-		if (_component_name === Components.ButtonBack.id){
-			
-			component_txt = document.getElementById(Components.ButtonBack.html_txt_component);
-			component_img = document.getElementById(Components.ButtonBack.html_img_component);
-
-			component_img.setAttribute('style','visibility : hidden !important');	
-			component_txt.setAttribute('style','visibility : hidden !important');
-		};
+	removeWizard : function(){
+		//esta função é chamada no click de confirmação da dialog
+		//remover eventos;
+		//remover botões !
 	}
 
 };
+
 Object.seal(WizardComponent);//tt(Object.isFrozen(WizardComponent));
 
 /* ========================== WIZARD COMPONENT ENDS HERE ============================= */
