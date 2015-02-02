@@ -126,11 +126,11 @@ var WizardComponent = {
 	wizard_label			: undefined,
 	maximum_steps_number 	: 0,
 	inicial_step			: 0,
-	current_step_number		: 0,
+	current_step_number		: 1,
 	
 	nextStepNumber 			: function(){
 
-		if(WizardComponent.current_step_number === WizardComponent.maximum_steps_number){
+		if(this.current_step_number === this.maximum_steps_number){
 				
 			var alert3 = new AlertsImprove.AlertWithTwoButtons();
 		    alert3.top_label_text = "TWO BUTTONS IN WIZARD";
@@ -139,25 +139,25 @@ var WizardComponent = {
 		    alert3.button_confirm_icon = "fa fa-check";
 		    alert3.button_cancel_label = "Cancelar";
 		    alert3.button_confirm_label = "Confirmar";
-		    alert3.Show();
-			
+		    alert3.Show();//este alerta será criado no próprio ecrã ?! para poder editar a vontade os textos e assim. //acho que é o que faz mais sentido
+			//this.setAlert();//remover o código acima e fazer o código desta função nos próprio ecrãs
 		}else{
-			if(WizardComponent.current_step_number === WizardComponent.inicial_step){
+			if(this.current_step_number === this.inicial_step){
 				setWizardComponentsVisibility(Components.ButtonBack.id);
 			}
 tt(":: NextWizardStep ::");
-			if (WizardComponent.current_step_number != WizardComponent.maximum_steps_number){
-				WizardComponent.current_step_number += 1;
-tt(":: CurrentStepNumber = " + WizardComponent.current_step_number + " ::");
+			if (this.current_step_number != this.maximum_steps_number){
+				this.current_step_number += 1;
+tt(":: CurrentStepNumber = " + this.current_step_number + " ::");
 			}else{
 tt(":: No more steps possible to define ! ::");
 				return null;
 			};
-			WizardComponent.setWizardText();
+			this.setWizardText();
 		}
 
-tt("CURRENT STEP NUMBER: " + WizardComponent.current_step_number);
-tt("LAST STEP NUMBER: " + WizardComponent.maximum_steps_number);
+tt("CURRENT STEP NUMBER: " + this.current_step_number);
+tt("LAST STEP NUMBER: " + this.maximum_steps_number);
 /* ======= MAKE BACK BUTTON VISIBLE ======== */
 		function setWizardComponentsVisibility() {
 tt("setWizardComponentsVisibility");
@@ -188,15 +188,20 @@ tt("setWizardComponentsVisibility");
 
 tt('seeIfIsFirstScreen');
 		if (!this.var_control_access){//is first access ?
-			WizardComponent.current_step_number -= 1;
-			WizardComponent.setWizardText();
+			if(this.current_step_number != this.inicial_step){
+				this.current_step_number -= 1;
+				this.setWizardText();
+			}else{
+tt(":: No less steps possible to define ! ::");
+				return null;
+			}
 		}else{ this.var_control_access = false;}
 
-		if(WizardComponent.current_step_number === WizardComponent.inicial_step){
+		if(this.current_step_number === this.inicial_step){
 			setWizardComponentsInvisibility(Components.ButtonBack.id);
 		}
-tt("CURRENT STEP NUMBER: " + WizardComponent.current_step_number);
-tt("INICIAL STEP NUMBER: " + WizardComponent.inicial_step);
+tt("CURRENT STEP NUMBER: " + this.current_step_number);
+tt("INICIAL STEP NUMBER: " + this.inicial_step);
 
 
 /* ======= MAKE BACK BUTTON INVISIBLE ======== */
@@ -212,7 +217,6 @@ tt("setWizardComponentsInvisibility");
 		}
 
 		function wizardComponentsInVisibility(_component_name){
-
 			if (_component_name === Components.ButtonBack.id){
 			
 				component_txt = document.getElementById(Components.ButtonBack.html_txt_component);
@@ -241,8 +245,10 @@ tt("setWizardComponentsInvisibility");
 		wizardSteps.innerHTML = ' (' + this.current_step_number + '/' + this.maximum_steps_number + ') ';
 	},
 	
-	setWizardEvents : function(){
+	setWizardEvents : function(){//esta funcionalidade faz sentido colocar aqui? ou nos ecrãs? porque os eventos de click,
+		//nos ecrãs, terá mais funcionalidades que apenas estas. Dá para editar o codigo dos eventos ?!
 		//http://www.w3schools.com/jsref/dom_obj_event.asp
+		//http://www.sitepoint.com/javascript-custom-events/
 
 		var btn_back = document.getElementById(Components.ButtonBack.html_img_component)
 		btn_back.onclick = function(){
@@ -257,6 +263,7 @@ tt("setWizardComponentsInvisibility");
 		};
 
 	},
+	
 	validateScreen : function(){
 tt('validateScreen');
 			if(this.current_step_number === this.inicial_step){
@@ -271,6 +278,10 @@ tt("INICIAL STEP NUMBER: " + this.inicial_step);
 		//esta função é chamada no click de confirmação da dialog
 		//remover eventos;
 		//remover botões !
+	},
+
+	setAlert : function(){
+
 	}
 
 };
